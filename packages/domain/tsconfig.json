@@ -6,7 +6,8 @@
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "noEmit": false
+    "noEmit": false,
+    "composite": true
   },
   "include": [
     "src/**/*"
@@ -15,5 +16,10 @@
     "node_modules",
     "dist",
     "tests"
+  ],
+  "references": [
+    {
+      "path": "../shared"
+    }
   ]
 }

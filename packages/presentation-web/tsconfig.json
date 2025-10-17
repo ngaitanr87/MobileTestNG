@@ -6,14 +6,24 @@
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "noEmit": false
+    "noEmit": false,
+    "composite": true
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "src/types/**/*"
   ],
   "exclude": [
     "node_modules",
     "dist",
     "tests"
+  ],
+  "references": [
+    {
+      "path": "../application"
+    },
+    {
+      "path": "../shared"
+    }
   ]
 }

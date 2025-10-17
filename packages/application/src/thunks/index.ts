@@ -1,2 +1,2 @@
 // Application thunks exports
-// TODO: Export thunks as they are implemented
+export * from './get-heroes-list-thunk';

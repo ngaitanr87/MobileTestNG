@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-// TODO: Import slices as they are implemented
+import heroesReducer from './slices/heroes-slice';
 
 export const store = configureStore({
   reducer: {
-    // TODO: Add slices as they are implemented
+    heroes: heroesReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

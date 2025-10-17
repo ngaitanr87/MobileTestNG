@@ -14,8 +14,8 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@marvel-heroes/domain": "workspace:*",
-    "@marvel-heroes/shared": "workspace:*",
+    "@marvel-heroes/domain": "file:../domain",
+    "@marvel-heroes/shared": "file:../shared",
     "@reduxjs/toolkit": "^2.0.1",
     "redux": "^5.0.1"
   },

@@ -14,8 +14,8 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@marvel-heroes/domain": "workspace:*",
-    "@marvel-heroes/shared": "workspace:*",
+    "@marvel-heroes/domain": "file:../domain",
+    "@marvel-heroes/shared": "file:../shared",
     "react-native": "^0.72.0",
     "@react-native-async-storage/async-storage": "^1.19.0"
   },

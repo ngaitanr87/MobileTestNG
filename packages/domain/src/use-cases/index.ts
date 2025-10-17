@@ -1,2 +1,2 @@
 // Domain use cases exports
-// TODO: Export use cases as they are implemented
+export * from './get-heroes-list-use-case';

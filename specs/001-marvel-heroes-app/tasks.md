@@ -64,33 +64,33 @@
 
 **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T017 [P] [US1] Domain unit test for GetHeroesListUseCase in packages/domain/tests/use-cases/test_get-heroes-list-use-case.ts
-- [ ] T018 [P] [US1] Domain unit test for Hero entity in packages/domain/tests/entities/test_hero.ts
-- [ ] T019 [P] [US1] Application unit test for heroesSlice in packages/application/tests/slices/test_heroes-slice.ts
-- [ ] T020 [P] [US1] Infrastructure contract test in packages/infra-mobile/tests/contracts/test_hero-repository.ts
-- [ ] T021 [P] [US1] Infrastructure contract test in packages/infra-web/tests/contracts/test_hero-repository.ts
-- [ ] T022 [P] [US1] Presentation test for mobile in packages/presentation-mobile/tests/screens/test_heroes-list-screen.tsx
-- [ ] T023 [P] [US1] Presentation test for web in packages/presentation-web/tests/pages/test_heroes-list-page.tsx
+- [x] T017 [P] [US1] Domain unit test for GetHeroesListUseCase in packages/domain/tests/use-cases/test_get-heroes-list-use-case.ts
+- [x] T018 [P] [US1] Domain unit test for Hero entity in packages/domain/tests/entities/test_hero.ts
+- [x] T019 [P] [US1] Application unit test for heroesSlice in packages/application/tests/slices/test_heroes-slice.ts
+- [x] T020 [P] [US1] Infrastructure contract test in packages/infra-mobile/tests/contracts/test_hero-repository.ts
+- [x] T021 [P] [US1] Infrastructure contract test in packages/infra-web/tests/contracts/test_hero-repository.ts
+- [x] T022 [P] [US1] Presentation test for mobile in packages/presentation-mobile/tests/screens/test_heroes-list-screen.tsx
+- [x] T023 [P] [US1] Presentation test for web in packages/presentation-web/tests/pages/test_heroes-list-page.tsx
 
 ### Implementation for User Story 1
 
-- [ ] T024 [P] [US1] Create Hero entity in packages/domain/src/entities/hero.ts
-- [ ] T025 [P] [US1] Create HeroCharacteristics value object in packages/domain/src/value-objects/hero-characteristics.ts
-- [ ] T026 [P] [US1] Define IHeroRepository interface in packages/domain/src/interfaces/i-hero-repository.ts
-- [ ] T027 [US1] Implement GetHeroesListUseCase in packages/domain/src/use-cases/get-heroes-list-use-case.ts (depends on T024, T025, T026)
-- [ ] T028 [P] [US1] Create heroesSlice in packages/application/src/slices/heroes-slice.ts
-- [ ] T029 [US1] Implement getHeroesList thunk in packages/application/src/thunks/get-heroes-list-thunk.ts (depends on T027)
-- [ ] T030 [P] [US1] Create hero selectors in packages/application/src/selectors/heroes-selectors.ts
-- [ ] T031 [P] [US1] Create HeroRepository implementation in packages/infra-mobile/src/repositories/hero-repository.ts
-- [ ] T032 [P] [US1] Create HeroRepository implementation in packages/infra-web/src/repositories/hero-repository.ts
-- [ ] T033 [P] [US1] Create HeroesListScreen in packages/presentation-mobile/src/screens/heroes-list-screen.tsx
-- [ ] T034 [P] [US1] Create HeroesListPage in packages/presentation-web/src/pages/heroes-list-page.tsx
-- [ ] T035 [P] [US1] Create HeroCard component in packages/presentation-mobile/src/components/hero-card.tsx
-- [ ] T036 [P] [US1] Create HeroCard component in packages/presentation-web/src/components/hero-card.tsx
-- [ ] T037 [P] [US1] Create SearchInput component in packages/presentation-mobile/src/components/search-input.tsx
-- [ ] T038 [P] [US1] Create SearchInput component in packages/presentation-web/src/components/search-input.tsx
-- [ ] T039 [US1] Configure DI bindings for hero repository in packages/di/src/containers/hero-container.ts
-- [ ] T040 [US1] Add error handling for hero loading failures in packages/shared/src/error-handling/
+- [x] T024 [P] [US1] Create Hero entity in packages/domain/src/entities/hero.ts
+- [x] T025 [P] [US1] Create HeroCharacteristics value object in packages/domain/src/value-objects/hero-characteristics.ts
+- [x] T026 [P] [US1] Define IHeroRepository interface in packages/domain/src/interfaces/i-hero-repository.ts
+- [x] T027 [US1] Implement GetHeroesListUseCase in packages/domain/src/use-cases/get-heroes-list-use-case.ts (depends on T024, T025, T026)
+- [x] T028 [P] [US1] Create heroesSlice in packages/application/src/slices/heroes-slice.ts
+- [x] T029 [US1] Implement getHeroesList thunk in packages/application/src/thunks/get-heroes-list-thunk.ts (depends on T027)
+- [x] T030 [P] [US1] Create hero selectors in packages/application/src/selectors/heroes-selectors.ts
+- [x] T031 [P] [US1] Create HeroRepository implementation in packages/infra-mobile/src/repositories/hero-repository.ts
+- [x] T032 [P] [US1] Create HeroRepository implementation in packages/infra-web/src/repositories/hero-repository.ts
+- [x] T033 [P] [US1] Create HeroesListScreen in packages/presentation-mobile/src/screens/heroes-list-screen.tsx
+- [x] T034 [P] [US1] Create HeroesListPage in packages/presentation-web/src/pages/heroes-list-page.tsx
+- [x] T035 [P] [US1] Create HeroCard component in packages/presentation-mobile/src/components/hero-card.tsx
+- [x] T036 [P] [US1] Create HeroCard component in packages/presentation-web/src/components/hero-card.tsx
+- [x] T037 [P] [US1] Create SearchInput component in packages/presentation-mobile/src/components/search-input.tsx
+- [x] T038 [P] [US1] Create SearchInput component in packages/presentation-web/src/components/search-input.tsx
+- [x] T039 [US1] Configure DI bindings for hero repository in packages/di/src/containers/hero-container.ts
+- [x] T040 [US1] Add error handling for hero loading failures in packages/shared/src/error-handling/
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 

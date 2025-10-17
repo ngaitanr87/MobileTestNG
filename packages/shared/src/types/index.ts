@@ -22,3 +22,5 @@ export interface PaginationResponse {
   total: number;
   totalPages: number;
 }
+
+export * from './hero';

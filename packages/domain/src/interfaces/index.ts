@@ -1,2 +1,2 @@
 // Domain interfaces exports
-// TODO: Export interfaces as they are implemented
+export * from './i-hero-repository';
