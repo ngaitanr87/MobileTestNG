@@ -1,0 +1,461 @@
+openapi: 3.0.3
+info:
+  title: Marvel Heroes API
+  description: API for Marvel Heroes App - Mock Data Implementation
+  version: 1.0.0
+  contact:
+    name: Marvel Heroes Team
+    email: team@marvelheroes.app
+
+servers:
+  - url: /api/v1
+    description: Mock API Server
+
+paths:
+  /heroes:
+    get:
+      summary: Get all heroes
+      description: Retrieve a paginated list of all Marvel heroes
+      parameters:
+        - name: page
+          in: query
+          description: Page number (1-based)
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          description: Number of heroes per page
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 20
+        - name: search
+          in: query
+          description: Search term for hero name or description
+          required: false
+          schema:
+            type: string
+            maxLength: 100
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  heroes:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Hero'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /heroes/{heroId}:
+    get:
+      summary: Get hero details
+      description: Retrieve detailed information about a specific hero
+      parameters:
+        - name: heroId
+          in: path
+          required: true
+          description: Hero unique identifier
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HeroDetails'
+        '404':
+          description: Hero not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /heroes/{heroId}/comics:
+    get:
+      summary: Get hero comics
+      description: Retrieve comics featuring a specific hero
+      parameters:
+        - name: heroId
+          in: path
+          required: true
+          description: Hero unique identifier
+          schema:
+            type: string
+            format: uuid
+        - name: limit
+          in: query
+          description: Number of comics to return
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 10
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  comics:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Comic'
+        '404':
+          description: Hero not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /heroes/{heroId}/movies:
+    get:
+      summary: Get hero movies
+      description: Retrieve movies featuring a specific hero
+      parameters:
+        - name: heroId
+          in: path
+          required: true
+          description: Hero unique identifier
+          schema:
+            type: string
+            format: uuid
+        - name: limit
+          in: query
+          description: Number of movies to return
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 10
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  movies:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Movie'
+        '404':
+          description: Hero not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /favorites:
+    get:
+      summary: Get user favorites
+      description: Retrieve user's favorite heroes
+      parameters:
+        - name: userId
+          in: query
+          required: true
+          description: User identifier
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  favorites:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Favorite'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /favorites:
+    post:
+      summary: Add favorite
+      description: Add a hero to user's favorites
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - heroId
+                - userId
+              properties:
+                heroId:
+                  type: string
+                  format: uuid
+                userId:
+                  type: string
+      responses:
+        '201':
+          description: Favorite added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Favorite'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Favorite already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /favorites/{favoriteId}:
+    delete:
+      summary: Remove favorite
+      description: Remove a hero from user's favorites
+      parameters:
+        - name: favoriteId
+          in: path
+          required: true
+          description: Favorite unique identifier
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Favorite removed successfully
+        '404':
+          description: Favorite not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Hero:
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - imageUrl
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 1000
+        imageUrl:
+          type: string
+          format: uri
+        characteristics:
+          $ref: '#/components/schemas/HeroCharacteristics'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    HeroCharacteristics:
+      type: object
+      properties:
+        powers:
+          type: array
+          items:
+            type: string
+        weaknesses:
+          type: array
+          items:
+            type: string
+        affiliations:
+          type: array
+          items:
+            type: string
+        firstAppearance:
+          type: string
+        realName:
+          type: string
+        species:
+          type: string
+        gender:
+          type: string
+        height:
+          type: number
+          minimum: 0
+        weight:
+          type: number
+          minimum: 0
+
+    HeroDetails:
+      allOf:
+        - $ref: '#/components/schemas/Hero'
+        - type: object
+          properties:
+            comics:
+              type: array
+              items:
+                $ref: '#/components/schemas/Comic'
+            movies:
+              type: array
+              items:
+                $ref: '#/components/schemas/Movie'
+
+    Comic:
+      type: object
+      required:
+        - id
+        - title
+        - publicationDate
+        - coverImageUrl
+        - heroId
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+          maxLength: 200
+        publicationDate:
+          type: string
+          format: date
+        coverImageUrl:
+          type: string
+          format: uri
+        description:
+          type: string
+          maxLength: 500
+        issueNumber:
+          type: integer
+          minimum: 1
+        series:
+          type: string
+        heroId:
+          type: string
+          format: uuid
+
+    Movie:
+      type: object
+      required:
+        - id
+        - title
+        - releaseDate
+        - posterImageUrl
+        - heroId
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+          maxLength: 200
+        releaseDate:
+          type: string
+          format: date
+        posterImageUrl:
+          type: string
+          format: uri
+        description:
+          type: string
+          maxLength: 1000
+        director:
+          type: string
+        runtime:
+          type: integer
+          minimum: 1
+        rating:
+          type: string
+          enum: [G, PG, PG-13, R, NC-17]
+        heroId:
+          type: string
+          format: uuid
+
+    Favorite:
+      type: object
+      required:
+        - id
+        - heroId
+        - userId
+        - createdAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        heroId:
+          type: string
+          format: uuid
+        userId:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    Pagination:
+      type: object
+      required:
+        - page
+        - limit
+        - total
+        - totalPages
+      properties:
+        page:
+          type: integer
+          minimum: 1
+        limit:
+          type: integer
+          minimum: 1
+        total:
+          type: integer
+          minimum: 0
+        totalPages:
+          type: integer
+          minimum: 0
+
+    Error:
+      type: object
+      required:
+        - message
+        - code
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+        details:
+          type: object

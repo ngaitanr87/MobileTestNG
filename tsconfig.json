@@ -1,0 +1,53 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "@domain/*": ["packages/domain/src/*"],
+      "@application/*": ["packages/application/src/*"],
+      "@infra-mobile/*": ["packages/infra-mobile/src/*"],
+      "@infra-web/*": ["packages/infra-web/src/*"],
+      "@presentation-mobile/*": ["packages/presentation-mobile/src/*"],
+      "@presentation-web/*": ["packages/presentation-web/src/*"],
+      "@di/*": ["packages/di/src/*"],
+      "@shared/*": ["packages/shared/src/*"]
+    }
+  },
+  "include": [
+    "packages/*/src/**/*",
+    "packages/*/tests/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "packages/*/node_modules",
+    "packages/*/dist",
+    "packages/*/build"
+  ],
+  "references": [
+    { "path": "./packages/domain" },
+    { "path": "./packages/application" },
+    { "path": "./packages/infra-mobile" },
+    { "path": "./packages/infra-web" },
+    { "path": "./packages/presentation-mobile" },
+    { "path": "./packages/presentation-web" },
+    { "path": "./packages/di" },
+    { "path": "./packages/shared" }
+  ]
+}

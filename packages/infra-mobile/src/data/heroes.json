@@ -1,0 +1,931 @@
+[
+  {
+    "id": "hero-001",
+    "name": "Iron Man",
+    "description": "Genius billionaire playboy philanthropist with an advanced suit of armor.",
+    "imageUrl": "https://picsum.photos/300/400?random=1",
+    "characteristics": {
+      "powers": [
+        "Superhuman strength",
+        "Flight",
+        "Energy blasts",
+        "Advanced technology"
+      ],
+      "weaknesses": [
+        "Arc reactor dependency",
+        "Alcoholism",
+        "Arrogance"
+      ],
+      "affiliations": [
+        "Avengers",
+        "Stark Industries"
+      ],
+      "firstAppearance": "Tales of Suspense #39 (March 1963)",
+      "realName": "Anthony Edward Stark",
+      "species": "Human",
+      "gender": "Male",
+      "height": 185,
+      "weight": 102
+    },
+    "createdAt": "2025-01-27T00:00:00Z",
+    "updatedAt": "2025-01-27T00:00:00Z"
+  },
+  {
+    "id": "hero-002",
+    "name": "Spider-Man",
+    "description": "Teenage superhero with spider-like abilities and a strong sense of responsibility.",
+    "imageUrl": "https://picsum.photos/300/400?random=2",
+    "characteristics": {
+      "powers": [
+        "Spider-sense",
+        "Superhuman strength",
+        "Wall-crawling",
+        "Web-slinging"
+      ],
+      "weaknesses": [
+        "Ethyl chloride",
+        "Overwhelming guilt",
+        "Insecurity"
+      ],
+      "affiliations": [
+        "Avengers",
+        "Fantastic Four"
+      ],
+      "firstAppearance": "Amazing Fantasy #15 (August 1962)",
+      "realName": "Peter Benjamin Parker",
+      "species": "Human",
+      "gender": "Male",
+      "height": 178,
+      "weight": 76
+    },
+    "createdAt": "2025-01-27T00:00:00Z",
+    "updatedAt": "2025-01-27T00:00:00Z"
+  },
+  {
+    "id": "hero-003",
+    "name": "Captain America",
+    "description": "Super-soldier and symbol of American ideals with an indestructible shield.",
+    "imageUrl": "https://picsum.photos/300/400?random=3",
+    "characteristics": {
+      "powers": [
+        "Peak human physical condition",
+        "Enhanced reflexes",
+        "Master tactician"
+      ],
+      "weaknesses": [
+        "Moral code",
+        "Outdated knowledge",
+        "No superhuman powers"
+      ],
+      "affiliations": [
+        "Avengers",
+        "S.H.I.E.L.D."
+      ],
+      "firstAppearance": "Captain America Comics #1 (March 1941)",
+      "realName": "Steven Grant Rogers",
+      "species": "Human",
+      "gender": "Male",
+      "height": 188,
+      "weight": 108
+    },
+    "createdAt": "2025-01-27T00:00:00Z",
+    "updatedAt": "2025-01-27T00:00:00Z"
+  },
+  {
+    "id": "hero-004",
+    "name": "Thor",
+    "description": "God of Thunder from Asgard with the power of Mjolnir.",
+    "imageUrl": "https://picsum.photos/300/400?random=4",
+    "characteristics": {
+      "powers": [
+        "Superhuman strength",
+        "Weather manipulation",
+        "Flight",
+        "Longevity"
+      ],
+      "weaknesses": [
+        "Magic",
+        "Pride",
+        "Mjolnir dependency"
+      ],
+      "affiliations": [
+        "Avengers",
+        "Asgard"
+      ],
+      "firstAppearance": "Journey into Mystery #83 (August 1962)",
+      "realName": "Thor Odinson",
+      "species": "Asgardian",
+      "gender": "Male",
+      "height": 198,
+      "weight": 290
+    },
+    "createdAt": "2025-01-27T00:00:00Z",
+    "updatedAt": "2025-01-27T00:00:00Z"
+  },
+  {
+    "id": "hero-005",
+    "name": "Hulk",
+    "description": "Scientist who transforms into a massive green monster when angry.",
+    "imageUrl": "https://picsum.photos/300/400?random=5",
+    "characteristics": {
+      "powers": [
+        "Superhuman strength",
+        "Regeneration",
+        "Invulnerability",
+        "Rage enhancement"
+      ],
+      "weaknesses": [
+        "Emotional control",
+        "Intelligence loss",
+        "Radiation sensitivity"
+      ],
+      "affiliations": [
+        "Avengers",
+        "Defenders"
+      ],
+      "firstAppearance": "Incredible Hulk #1 (May 1962)",
+      "realName": "Robert Bruce Banner",
+      "species": "Human",
+      "gender": "Male",
+      "height": 244,
+      "weight": 630
+    },
+    "createdAt": "2025-01-27T00:00:00Z",
+    "updatedAt": "2025-01-27T00:00:00Z"
+  },
+  {
+    "id": "hero-006",
+    "name": "Black Widow",
+    "description": "A powerful superhero with unique abilities and a strong sense of justice.",
+    "imageUrl": "https://picsum.photos/300/400?random=6",
+    "characteristics": {
+      "powers": [
+        "Superhuman abilities",
+        "Combat skills",
+        "Unique powers"
+      ],
+      "weaknesses": [
+        "Moral code",
+        "Personal demons",
+        "Limited powers"
+      ],
+      "affiliations": [
+        "Avengers",
+        "Defenders",
+        "Independent"
+      ],
+      "firstAppearance": "Comic Book #817 (1997)",
+      "realName": "Natasha Romanoff",
+      "species": "Human",
+      "gender": "Female",
+      "height": 174,
+      "weight": 60
+    },
+    "createdAt": "2025-01-27T00:00:00Z",
+    "updatedAt": "2025-01-27T00:00:00Z"
+  },
+  {
+    "id": "hero-007",
+    "name": "Doctor Strange",
+    "description": "A powerful superhero with unique abilities and a strong sense of justice.",
+    "imageUrl": "https://picsum.photos/300/400?random=7",
+    "characteristics": {
+      "powers": [
+        "Superhuman abilities",
+        "Combat skills",
+        "Unique powers"
+      ],
+      "weaknesses": [
+        "Moral code",
+        "Personal demons",
+        "Limited powers"
+      ],
+      "affiliations": [
+        "Avengers",
+        "Defenders",
+        "Independent"
+      ],
+      "firstAppearance": "Comic Book #690 (2015)",
+      "realName": "Stephen Vincent Strange",
+      "species": "Human",
+      "gender": "Male",
+      "height": 169,
+      "weight": 104
+    },
+    "createdAt": "2025-01-27T00:00:00Z",
+    "updatedAt": "2025-01-27T00:00:00Z"
+  },
+  {
+    "id": "hero-008",
+    "name": "Wolverine",
+    "description": "A powerful superhero with unique abilities and a strong sense of justice.",
+    "imageUrl": "https://picsum.photos/300/400?random=8",
+    "characteristics": {
+      "powers": [
+        "Superhuman abilities",
+        "Combat skills",
+        "Unique powers"
+      ],
+      "weaknesses": [
+        "Moral code",
+        "Personal demons",
+        "Limited powers"
+      ],
+      "affiliations": [
+        "Avengers",
+        "Defenders",
+        "Independent"
+      ],
+      "firstAppearance": "Comic Book #90 (1987)",
+      "realName": "James Howlett",
+      "species": "Mutant",
+      "gender": "Male",
+      "height": 182,
+      "weight": 72
+    },
+    "createdAt": "2025-01-27T00:00:00Z",
+    "updatedAt": "2025-01-27T00:00:00Z"
+  },
+  {
+    "id": "hero-009",
+    "name": "Storm",
+    "description": "A powerful superhero with unique abilities and a strong sense of justice.",
+    "imageUrl": "https://picsum.photos/300/400?random=9",
+    "characteristics": {
+      "powers": [
+        "Superhuman abilities",
+        "Combat skills",
+        "Unique powers"
+      ],
+      "weaknesses": [
+        "Moral code",
+        "Personal demons",
+        "Limited powers"
+      ],
+      "affiliations": [
+        "Avengers",
+        "Defenders",
+        "Independent"
+      ],
+      "firstAppearance": "Comic Book #374 (1993)",
+      "realName": "Ororo Munroe",
+      "species": "Mutant",
+      "gender": "Female",
+      "height": 166,
+      "weight": 98
+    },
+    "createdAt": "2025-01-27T00:00:00Z",
+    "updatedAt": "2025-01-27T00:00:00Z"
+  },
+  {
+    "id": "hero-010",
+    "name": "Deadpool",
+    "description": "A powerful superhero with unique abilities and a strong sense of justice.",
+    "imageUrl": "https://picsum.photos/300/400?random=10",
+    "characteristics": {
+      "powers": [
+        "Superhuman abilities",
+        "Combat skills",
+        "Unique powers"
+      ],
+      "weaknesses": [
+        "Moral code",
+        "Personal demons",
+        "Limited powers"
+      ],
+      "affiliations": [
+        "Avengers",
+        "Defenders",
+        "Independent"
+      ],
+      "firstAppearance": "Comic Book #849 (1979)",
+      "realName": "Wade Winston Wilson",
+      "species": "Mutant",
+      "gender": "Male",
+      "height": 168,
+      "weight": 88
+    },
+    "createdAt": "2025-01-27T00:00:00Z",
+    "updatedAt": "2025-01-27T00:00:00Z"
+  },
+  {
+    "id": "hero-011",
+    "name": "Black Panther",
+    "description": "A powerful superhero with unique abilities and a strong sense of justice.",
+    "imageUrl": "https://picsum.photos/300/400?random=11",
+    "characteristics": {
+      "powers": [
+        "Superhuman abilities",
+        "Combat skills",
+        "Unique powers"
+      ],
+      "weaknesses": [
+        "Moral code",
+        "Personal demons",
+        "Limited powers"
+      ],
+      "affiliations": [
+        "Avengers",
+        "Defenders",
+        "Independent"
+      ],
+      "firstAppearance": "Comic Book #253 (1997)",
+      "realName": "T'Challa",
+      "species": "Human",
+      "gender": "Male",
+      "height": 178,
+      "weight": 89
+    },
+    "createdAt": "2025-01-27T00:00:00Z",
+    "updatedAt": "2025-01-27T00:00:00Z"
+  },
+  {
+    "id": "hero-012",
+    "name": "Captain Marvel",
+    "description": "A powerful superhero with unique abilities and a strong sense of justice.",
+    "imageUrl": "https://picsum.photos/300/400?random=12",
+    "characteristics": {
+      "powers": [
+        "Superhuman abilities",
+        "Combat skills",
+        "Unique powers"
+      ],
+      "weaknesses": [
+        "Moral code",
+        "Personal demons",
+        "Limited powers"
+      ],
+      "affiliations": [
+        "Avengers",
+        "Defenders",
+        "Independent"
+      ],
+      "firstAppearance": "Comic Book #275 (1981)",
+      "realName": "Carol Danvers",
+      "species": "Human",
+      "gender": "Female",
+      "height": 163,
+      "weight": 64
+    },
+    "createdAt": "2025-01-27T00:00:00Z",
+    "updatedAt": "2025-01-27T00:00:00Z"
+  },
+  {
+    "id": "hero-013",
+    "name": "Ant-Man",
+    "description": "A powerful superhero with unique abilities and a strong sense of justice.",
+    "imageUrl": "https://picsum.photos/300/400?random=13",
+    "characteristics": {
+      "powers": [
+        "Superhuman abilities",
+        "Combat skills",
+        "Unique powers"
+      ],
+      "weaknesses": [
+        "Moral code",
+        "Personal demons",
+        "Limited powers"
+      ],
+      "affiliations": [
+        "Avengers",
+        "Defenders",
+        "Independent"
+      ],
+      "firstAppearance": "Comic Book #11 (1976)",
+      "realName": "Scott Lang",
+      "species": "Human",
+      "gender": "Male",
+      "height": 178,
+      "weight": 88
+    },
+    "createdAt": "2025-01-27T00:00:00Z",
+    "updatedAt": "2025-01-27T00:00:00Z"
+  },
+  {
+    "id": "hero-014",
+    "name": "Wasp",
+    "description": "A powerful superhero with unique abilities and a strong sense of justice.",
+    "imageUrl": "https://picsum.photos/300/400?random=14",
+    "characteristics": {
+      "powers": [
+        "Superhuman abilities",
+        "Combat skills",
+        "Unique powers"
+      ],
+      "weaknesses": [
+        "Moral code",
+        "Personal demons",
+        "Limited powers"
+      ],
+      "affiliations": [
+        "Avengers",
+        "Defenders",
+        "Independent"
+      ],
+      "firstAppearance": "Comic Book #225 (1989)",
+      "realName": "Janet van Dyne",
+      "species": "Human",
+      "gender": "Female",
+      "height": 187,
+      "weight": 89
+    },
+    "createdAt": "2025-01-27T00:00:00Z",
+    "updatedAt": "2025-01-27T00:00:00Z"
+  },
+  {
+    "id": "hero-015",
+    "name": "Vision",
+    "description": "A powerful superhero with unique abilities and a strong sense of justice.",
+    "imageUrl": "https://picsum.photos/300/400?random=15",
+    "characteristics": {
+      "powers": [
+        "Superhuman abilities",
+        "Combat skills",
+        "Unique powers"
+      ],
+      "weaknesses": [
+        "Moral code",
+        "Personal demons",
+        "Limited powers"
+      ],
+      "affiliations": [
+        "Avengers",
+        "Defenders",
+        "Independent"
+      ],
+      "firstAppearance": "Comic Book #64 (1977)",
+      "realName": "Vision",
+      "species": "Android",
+      "gender": "Male",
+      "height": 180,
+      "weight": 85
+    },
+    "createdAt": "2025-01-27T00:00:00Z",
+    "updatedAt": "2025-01-27T00:00:00Z"
+  },
+  {
+    "id": "hero-016",
+    "name": "Scarlet Witch",
+    "description": "A powerful superhero with unique abilities and a strong sense of justice.",
+    "imageUrl": "https://picsum.photos/300/400?random=16",
+    "characteristics": {
+      "powers": [
+        "Superhuman abilities",
+        "Combat skills",
+        "Unique powers"
+      ],
+      "weaknesses": [
+        "Moral code",
+        "Personal demons",
+        "Limited powers"
+      ],
+      "affiliations": [
+        "Avengers",
+        "Defenders",
+        "Independent"
+      ],
+      "firstAppearance": "Comic Book #238 (1974)",
+      "realName": "Wanda Maximoff",
+      "species": "Mutant",
+      "gender": "Female",
+      "height": 185,
+      "weight": 104
+    },
+    "createdAt": "2025-01-27T00:00:00Z",
+    "updatedAt": "2025-01-27T00:00:00Z"
+  },
+  {
+    "id": "hero-017",
+    "name": "Quicksilver",
+    "description": "A powerful superhero with unique abilities and a strong sense of justice.",
+    "imageUrl": "https://picsum.photos/300/400?random=17",
+    "characteristics": {
+      "powers": [
+        "Superhuman abilities",
+        "Combat skills",
+        "Unique powers"
+      ],
+      "weaknesses": [
+        "Moral code",
+        "Personal demons",
+        "Limited powers"
+      ],
+      "affiliations": [
+        "Avengers",
+        "Defenders",
+        "Independent"
+      ],
+      "firstAppearance": "Comic Book #789 (1998)",
+      "realName": "Pietro Maximoff",
+      "species": "Mutant",
+      "gender": "Male",
+      "height": 165,
+      "weight": 98
+    },
+    "createdAt": "2025-01-27T00:00:00Z",
+    "updatedAt": "2025-01-27T00:00:00Z"
+  },
+  {
+    "id": "hero-018",
+    "name": "Falcon",
+    "description": "A powerful superhero with unique abilities and a strong sense of justice.",
+    "imageUrl": "https://picsum.photos/300/400?random=18",
+    "characteristics": {
+      "powers": [
+        "Superhuman abilities",
+        "Combat skills",
+        "Unique powers"
+      ],
+      "weaknesses": [
+        "Moral code",
+        "Personal demons",
+        "Limited powers"
+      ],
+      "affiliations": [
+        "Avengers",
+        "Defenders",
+        "Independent"
+      ],
+      "firstAppearance": "Comic Book #769 (1975)",
+      "realName": "Sam Wilson",
+      "species": "Human",
+      "gender": "Male",
+      "height": 180,
+      "weight": 105
+    },
+    "createdAt": "2025-01-27T00:00:00Z",
+    "updatedAt": "2025-01-27T00:00:00Z"
+  },
+  {
+    "id": "hero-019",
+    "name": "Winter Soldier",
+    "description": "A powerful superhero with unique abilities and a strong sense of justice.",
+    "imageUrl": "https://picsum.photos/300/400?random=19",
+    "characteristics": {
+      "powers": [
+        "Superhuman abilities",
+        "Combat skills",
+        "Unique powers"
+      ],
+      "weaknesses": [
+        "Moral code",
+        "Personal demons",
+        "Limited powers"
+      ],
+      "affiliations": [
+        "Avengers",
+        "Defenders",
+        "Independent"
+      ],
+      "firstAppearance": "Comic Book #84 (1982)",
+      "realName": "Bucky Barnes",
+      "species": "Human",
+      "gender": "Male",
+      "height": 163,
+      "weight": 81
+    },
+    "createdAt": "2025-01-27T00:00:00Z",
+    "updatedAt": "2025-01-27T00:00:00Z"
+  },
+  {
+    "id": "hero-020",
+    "name": "Hawkeye",
+    "description": "A powerful superhero with unique abilities and a strong sense of justice.",
+    "imageUrl": "https://picsum.photos/300/400?random=20",
+    "characteristics": {
+      "powers": [
+        "Superhuman abilities",
+        "Combat skills",
+        "Unique powers"
+      ],
+      "weaknesses": [
+        "Moral code",
+        "Personal demons",
+        "Limited powers"
+      ],
+      "affiliations": [
+        "Avengers",
+        "Defenders",
+        "Independent"
+      ],
+      "firstAppearance": "Comic Book #654 (1988)",
+      "realName": "Clint Barton",
+      "species": "Human",
+      "gender": "Male",
+      "height": 161,
+      "weight": 60
+    },
+    "createdAt": "2025-01-27T00:00:00Z",
+    "updatedAt": "2025-01-27T00:00:00Z"
+  },
+  {
+    "id": "hero-021",
+    "name": "Daredevil",
+    "description": "A powerful superhero with unique abilities and a strong sense of justice.",
+    "imageUrl": "https://picsum.photos/300/400?random=21",
+    "characteristics": {
+      "powers": [
+        "Superhuman abilities",
+        "Combat skills",
+        "Unique powers"
+      ],
+      "weaknesses": [
+        "Moral code",
+        "Personal demons",
+        "Limited powers"
+      ],
+      "affiliations": [
+        "Avengers",
+        "Defenders",
+        "Independent"
+      ],
+      "firstAppearance": "Comic Book #143 (2000)",
+      "realName": "Matthew Murdock",
+      "species": "Human",
+      "gender": "Male",
+      "height": 170,
+      "weight": 93
+    },
+    "createdAt": "2025-01-27T00:00:00Z",
+    "updatedAt": "2025-01-27T00:00:00Z"
+  },
+  {
+    "id": "hero-022",
+    "name": "Punisher",
+    "description": "A powerful superhero with unique abilities and a strong sense of justice.",
+    "imageUrl": "https://picsum.photos/300/400?random=22",
+    "characteristics": {
+      "powers": [
+        "Superhuman abilities",
+        "Combat skills",
+        "Unique powers"
+      ],
+      "weaknesses": [
+        "Moral code",
+        "Personal demons",
+        "Limited powers"
+      ],
+      "affiliations": [
+        "Avengers",
+        "Defenders",
+        "Independent"
+      ],
+      "firstAppearance": "Comic Book #432 (1974)",
+      "realName": "Frank Castle",
+      "species": "Human",
+      "gender": "Male",
+      "height": 173,
+      "weight": 97
+    },
+    "createdAt": "2025-01-27T00:00:00Z",
+    "updatedAt": "2025-01-27T00:00:00Z"
+  },
+  {
+    "id": "hero-023",
+    "name": "Ghost Rider",
+    "description": "A powerful superhero with unique abilities and a strong sense of justice.",
+    "imageUrl": "https://picsum.photos/300/400?random=23",
+    "characteristics": {
+      "powers": [
+        "Superhuman abilities",
+        "Combat skills",
+        "Unique powers"
+      ],
+      "weaknesses": [
+        "Moral code",
+        "Personal demons",
+        "Limited powers"
+      ],
+      "affiliations": [
+        "Avengers",
+        "Defenders",
+        "Independent"
+      ],
+      "firstAppearance": "Comic Book #649 (2019)",
+      "realName": "Johnny Blaze",
+      "species": "Human",
+      "gender": "Male",
+      "height": 162,
+      "weight": 60
+    },
+    "createdAt": "2025-01-27T00:00:00Z",
+    "updatedAt": "2025-01-27T00:00:00Z"
+  },
+  {
+    "id": "hero-024",
+    "name": "Blade",
+    "description": "A powerful superhero with unique abilities and a strong sense of justice.",
+    "imageUrl": "https://picsum.photos/300/400?random=24",
+    "characteristics": {
+      "powers": [
+        "Superhuman abilities",
+        "Combat skills",
+        "Unique powers"
+      ],
+      "weaknesses": [
+        "Moral code",
+        "Personal demons",
+        "Limited powers"
+      ],
+      "affiliations": [
+        "Avengers",
+        "Defenders",
+        "Independent"
+      ],
+      "firstAppearance": "Comic Book #969 (2006)",
+      "realName": "Eric Brooks",
+      "species": "Human",
+      "gender": "Male",
+      "height": 178,
+      "weight": 89
+    },
+    "createdAt": "2025-01-27T00:00:00Z",
+    "updatedAt": "2025-01-27T00:00:00Z"
+  },
+  {
+    "id": "hero-025",
+    "name": "Moon Knight",
+    "description": "A powerful superhero with unique abilities and a strong sense of justice.",
+    "imageUrl": "https://picsum.photos/300/400?random=25",
+    "characteristics": {
+      "powers": [
+        "Superhuman abilities",
+        "Combat skills",
+        "Unique powers"
+      ],
+      "weaknesses": [
+        "Moral code",
+        "Personal demons",
+        "Limited powers"
+      ],
+      "affiliations": [
+        "Avengers",
+        "Defenders",
+        "Independent"
+      ],
+      "firstAppearance": "Comic Book #907 (1970)",
+      "realName": "Marc Spector",
+      "species": "Human",
+      "gender": "Male",
+      "height": 171,
+      "weight": 94
+    },
+    "createdAt": "2025-01-27T00:00:00Z",
+    "updatedAt": "2025-01-27T00:00:00Z"
+  },
+  {
+    "id": "hero-026",
+    "name": "Iron Fist",
+    "description": "A powerful superhero with unique abilities and a strong sense of justice.",
+    "imageUrl": "https://picsum.photos/300/400?random=26",
+    "characteristics": {
+      "powers": [
+        "Superhuman abilities",
+        "Combat skills",
+        "Unique powers"
+      ],
+      "weaknesses": [
+        "Moral code",
+        "Personal demons",
+        "Limited powers"
+      ],
+      "affiliations": [
+        "Avengers",
+        "Defenders",
+        "Independent"
+      ],
+      "firstAppearance": "Comic Book #966 (1998)",
+      "realName": "Danny Rand",
+      "species": "Human",
+      "gender": "Male",
+      "height": 183,
+      "weight": 67
+    },
+    "createdAt": "2025-01-27T00:00:00Z",
+    "updatedAt": "2025-01-27T00:00:00Z"
+  },
+  {
+    "id": "hero-027",
+    "name": "Luke Cage",
+    "description": "A powerful superhero with unique abilities and a strong sense of justice.",
+    "imageUrl": "https://picsum.photos/300/400?random=27",
+    "characteristics": {
+      "powers": [
+        "Superhuman abilities",
+        "Combat skills",
+        "Unique powers"
+      ],
+      "weaknesses": [
+        "Moral code",
+        "Personal demons",
+        "Limited powers"
+      ],
+      "affiliations": [
+        "Avengers",
+        "Defenders",
+        "Independent"
+      ],
+      "firstAppearance": "Comic Book #792 (1975)",
+      "realName": "Carl Lucas",
+      "species": "Human",
+      "gender": "Male",
+      "height": 174,
+      "weight": 108
+    },
+    "createdAt": "2025-01-27T00:00:00Z",
+    "updatedAt": "2025-01-27T00:00:00Z"
+  },
+  {
+    "id": "hero-028",
+    "name": "Jessica Jones",
+    "description": "A powerful superhero with unique abilities and a strong sense of justice.",
+    "imageUrl": "https://picsum.photos/300/400?random=28",
+    "characteristics": {
+      "powers": [
+        "Superhuman abilities",
+        "Combat skills",
+        "Unique powers"
+      ],
+      "weaknesses": [
+        "Moral code",
+        "Personal demons",
+        "Limited powers"
+      ],
+      "affiliations": [
+        "Avengers",
+        "Defenders",
+        "Independent"
+      ],
+      "firstAppearance": "Comic Book #143 (1979)",
+      "realName": "Jessica Campbell Jones",
+      "species": "Human",
+      "gender": "Female",
+      "height": 173,
+      "weight": 71
+    },
+    "createdAt": "2025-01-27T00:00:00Z",
+    "updatedAt": "2025-01-27T00:00:00Z"
+  },
+  {
+    "id": "hero-029",
+    "name": "She-Hulk",
+    "description": "A powerful superhero with unique abilities and a strong sense of justice.",
+    "imageUrl": "https://picsum.photos/300/400?random=29",
+    "characteristics": {
+      "powers": [
+        "Superhuman abilities",
+        "Combat skills",
+        "Unique powers"
+      ],
+      "weaknesses": [
+        "Moral code",
+        "Personal demons",
+        "Limited powers"
+      ],
+      "affiliations": [
+        "Avengers",
+        "Defenders",
+        "Independent"
+      ],
+      "firstAppearance": "Comic Book #634 (2010)",
+      "realName": "Jennifer Walters",
+      "species": "Human",
+      "gender": "Female",
+      "height": 160,
+      "weight": 101
+    },
+    "createdAt": "2025-01-27T00:00:00Z",
+    "updatedAt": "2025-01-27T00:00:00Z"
+  },
+  {
+    "id": "hero-030",
+    "name": "Ms. Marvel",
+    "description": "A powerful superhero with unique abilities and a strong sense of justice.",
+    "imageUrl": "https://picsum.photos/300/400?random=30",
+    "characteristics": {
+      "powers": [
+        "Superhuman abilities",
+        "Combat skills",
+        "Unique powers"
+      ],
+      "weaknesses": [
+        "Moral code",
+        "Personal demons",
+        "Limited powers"
+      ],
+      "affiliations": [
+        "Avengers",
+        "Defenders",
+        "Independent"
+      ],
+      "firstAppearance": "Comic Book #836 (1984)",
+      "realName": "Kamala Khan",
+      "species": "Inhuman",
+      "gender": "Female",
+      "height": 173,
+      "weight": 61
+    },
+    "createdAt": "2025-01-27T00:00:00Z",
+    "updatedAt": "2025-01-27T00:00:00Z"
+  }
+]

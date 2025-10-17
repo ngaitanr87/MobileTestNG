@@ -1,0 +1,46 @@
+{
+  "name": "marvel-heroes-app",
+  "version": "1.0.0",
+  "description": "A master-detail mobile app for learning about Marvel heroes with Clean Architecture",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces",
+    "test:coverage": "npm run test:coverage --workspaces",
+    "lint": "npm run lint --workspaces",
+    "lint:fix": "npm run lint:fix --workspaces",
+    "clean": "npm run clean --workspaces",
+    "dev": "npm run dev --workspaces",
+    "type-check": "npm run type-check --workspaces"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.0",
+    "eslint": "^8.55.0",
+    "prettier": "^3.1.0",
+    "jest": "^29.7.0",
+    "@types/jest": "^29.5.8",
+    "ts-jest": "^29.1.1"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-org/marvel-heroes-app.git"
+  },
+  "keywords": [
+    "react-native",
+    "react",
+    "typescript",
+    "clean-architecture",
+    "marvel",
+    "heroes"
+  ],
+  "author": "Marvel Heroes Team",
+  "license": "MIT"
+}
