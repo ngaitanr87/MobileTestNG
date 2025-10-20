@@ -1,0 +1,28 @@
+const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
+const path = require('path');
+
+/**
+ * Metro configuration
+ * https://facebook.github.io/metro/docs/configuration
+ *
+ * @type {import('metro-config').MetroConfig}
+ */
+const config = {
+  watchFolders: [
+    path.resolve(__dirname, '../domain'),
+    path.resolve(__dirname, '../application'),
+    path.resolve(__dirname, '../shared'),
+    path.resolve(__dirname, '../infra-mobile'),
+    path.resolve(__dirname, '../../node_modules'),
+  ],
+  resolver: {
+    alias: {
+      '@domain': path.resolve(__dirname, '../domain/src'),
+      '@application': path.resolve(__dirname, '../application/src'),
+      '@shared': path.resolve(__dirname, '../shared/src'),
+      '@infra-mobile': path.resolve(__dirname, '../infra-mobile/src'),
+    },
+  },
+};
+
+module.exports = mergeConfig(getDefaultConfig(__dirname), config);

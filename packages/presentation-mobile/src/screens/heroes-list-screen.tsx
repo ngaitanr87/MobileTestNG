@@ -11,7 +11,6 @@ import { useDispatch, useSelector } from 'react-redux';
 // import { useNavigation } from '@react-navigation/native';
 import { getHeroesList } from '@application/thunks/get-heroes-list-thunk';
 import {
-  selectHeroes,
   selectHeroesLoading,
   selectHeroesError,
   selectSearchTerm,
@@ -21,12 +20,12 @@ import { setSearchTerm } from '@application/slices/heroes-slice';
 import { SearchInput } from '../components/search-input';
 import { HeroCard } from '../components/hero-card';
 import { HeroData as Hero } from '@shared/types/hero';
+import { logger } from '@shared/logging';
 
 export const HeroesListScreen: React.FC = () => {
   const dispatch = useDispatch();
   // const navigation = useNavigation();
   
-  const heroes = useSelector(selectHeroes);
   const loading = useSelector(selectHeroesLoading);
   const error = useSelector(selectHeroesError);
   const searchTerm = useSelector(selectSearchTerm);
@@ -48,7 +47,7 @@ export const HeroesListScreen: React.FC = () => {
 
   const handleHeroPress = (hero: Hero) => {
     // In a real implementation, this would navigate to hero detail
-    console.log('Navigate to hero detail:', hero.id);
+    logger.info('Navigate to hero detail:', hero.id);
   };
 
   const renderHero = ({ item }: { item: Hero }) => (
