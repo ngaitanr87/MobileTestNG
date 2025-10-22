@@ -1,4 +1,7 @@
-// Shared logging utilities
+// Shared logging utilities using react-native-logs
+import { logger as RNLogger } from 'react-native-logs';
+
+// Log levels enum for consistency
 export enum LogLevel {
   DEBUG = 'debug',
   INFO = 'info',
@@ -6,6 +9,7 @@ export enum LogLevel {
   ERROR = 'error',
 }
 
+// Logger interface for Clean Architecture
 export interface Logger {
   debug(message: string, ...args: unknown[]): void;
   info(message: string, ...args: unknown[]): void;
@@ -13,22 +17,28 @@ export interface Logger {
   error(message: string, ...args: unknown[]): void;
 }
 
-export class ConsoleLogger implements Logger {
+// React Native Logs implementation
+export class ReactNativeLogger implements Logger {
+  private logger = RNLogger.createLogger({
+    severity: 'debug',
+  });
+
   debug(message: string, ...args: unknown[]): void {
-    console.debug(`[DEBUG] ${message}`, ...args);
+    this.logger.debug(message, ...args);
   }
 
   info(message: string, ...args: unknown[]): void {
-    console.info(`[INFO] ${message}`, ...args);
+    this.logger.info(message, ...args);
   }
 
   warn(message: string, ...args: unknown[]): void {
-    console.warn(`[WARN] ${message}`, ...args);
+    this.logger.warn(message, ...args);
   }
 
   error(message: string, ...args: unknown[]): void {
-    console.error(`[ERROR] ${message}`, ...args);
+    this.logger.error(message, ...args);
   }
 }
 
-export const logger = new ConsoleLogger();
+// Export the logger instance
+export const logger = new ReactNativeLogger();

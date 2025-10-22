@@ -9,6 +9,8 @@
 
 A master-detail mobile app for learning about Marvel heroes with search functionality, detailed character information including comics and movies, and favorites management. The app uses mock data (30 heroes) with Clean Architecture principles for React Native and React Web platforms.
 
+**ARCHITECTURE CLEANUP**: Refactor the current architecture to implement proper Clean Architecture principles with a federated data layer approach. This includes creating shared data packages that isolate data source interfaces from platform-specific implementations, similar to Flutter's federated plugin architecture.
+
 ## Technical Context
 
 <!--
@@ -70,65 +72,120 @@ specs/[###-feature]/
 ```
 
 ### Source Code (Clean Architecture Structure)
-<!--
-  ACTION REQUIRED: Replace the placeholder tree below with the concrete layout
-  for this feature following Clean Architecture principles. The delivered plan must
-  follow the packages/ structure with strict layer isolation.
--->
 
+#### Current Structure (Before Cleanup)
 ```
 packages/
-├── domain/                    # Pure TS: Entities, Value Objects, Use Cases, Interfaces
-│   ├── src/
-│   │   ├── entities/
-│   │   ├── value-objects/
-│   │   ├── use-cases/
-│   │   └── interfaces/
-│   └── tests/
-├── application/               # Redux Toolkit slices, thunks, selectors
-│   ├── src/
-│   │   ├── slices/
-│   │   ├── thunks/
-│   │   └── selectors/
-│   └── tests/
-├── infra-mobile/             # RN adapters: HTTP, AsyncStorage, Native Modules
-│   ├── src/
-│   │   ├── http/
-│   │   ├── storage/
-│   │   └── native/
-│   └── tests/
-├── infra-web/                # Web adapters: fetch, localStorage, Service Worker
-│   ├── src/
-│   │   ├── http/
-│   │   ├── storage/
-│   │   └── sw/
-│   └── tests/
-├── presentation-mobile/      # RN screens, components, hooks
-│   ├── src/
-│   │   ├── screens/
-│   │   ├── components/
-│   │   └── hooks/
-│   └── tests/
-├── presentation-web/         # React web pages, components, hooks
-│   ├── src/
-│   │   ├── pages/
-│   │   ├── components/
-│   │   └── hooks/
-│   └── tests/
-├── di/                       # Dependency injection containers
-│   ├── src/
-│   │   ├── containers/
-│   │   └── types/
-│   └── tests/
-└── shared/                   # Cross-cutting: error utils, types, logging
-    ├── src/
-    │   ├── types/
-    │   ├── utils/
-    │   └── logging/
-    └── tests/
+├── domain/                    # ✅ Good: Pure business logic
+├── application/               # ✅ Good: Redux state management
+├── infra-mobile/             # ❌ Issue: Platform-specific data layer
+│   └── src/
+│       └── data/             # Duplicated data logic
+├── infra-web/                # ❌ Issue: Platform-specific data layer
+│   └── src/
+│       └── data/           # Duplicated data logic
+├── presentation-mobile/       # ✅ Good: UI components
+├── presentation-web/         # ✅ Good: UI components
+├── di/                       # ✅ Good: Dependency injection
+└── shared/                   # ✅ Good: Cross-cutting concerns
 ```
 
-**Structure Decision**: Clean Architecture with strict layer isolation following the constitution. Domain layer contains pure business logic (Hero, Comic, Movie entities and use cases). Application layer manages Redux state and orchestrates use cases. Infrastructure layers provide platform-specific implementations (mobile/web). Presentation layers contain only UI components. Dependency injection ensures loose coupling between layers.
+#### Target Structure (After Cleanup)
+```
+packages/
+├── domain/                    # Pure business logic (unchanged)
+├── application/               # Redux state management (unchanged)
+├── data-mobile/              # 🆕 NEW: Mobile data layer with implementations
+│   ├── src/
+│   │   ├── contracts/        # Data source interfaces
+│   │   ├── adapters/         # Platform-agnostic adapters
+│   │   ├── implementations/  # Mobile-specific implementations (storage only)
+│   │   ├── sources/          # Data source implementations
+│   │   └── types/            # Data transfer objects
+│   └── tests/
+├── data-web/                 # 🆕 NEW: Web data layer with implementations
+│   ├── src/
+│   │   ├── contracts/        # Data source interfaces
+│   │   ├── adapters/         # Platform-agnostic adapters
+│   │   ├── implementations/  # Web-specific implementations (storage only)
+│   │   ├── sources/          # Data source implementations
+│   │   └── types/            # Data transfer objects
+│   └── tests/
+├── data-shared/              # 🆕 NEW: Shared data implementations
+│   ├── src/
+│   │   ├── contracts/        # Shared data contracts
+│   │   ├── http/             # Shared axios HTTP client
+│   │   ├── mappers/          # Shared data mappers
+│   │   └── types/            # Shared DTOs and interfaces
+│   └── tests/
+├── infra-mobile/             # Mobile-specific implementations
+│   ├── src/
+│   │   ├── storage/          # AsyncStorage adapter
+│   │   └── native/           # Native module bridges
+│   └── tests/
+├── infra-web/                # Web-specific implementations
+│   ├── src/
+│   │   ├── storage/          # localStorage adapter
+│   │   └── sw/               # Service Worker
+│   └── tests/
+├── presentation-mobile/      # UI components (unchanged)
+├── presentation-web/         # UI components (unchanged)
+├── di/                       # Updated DI configuration
+└── shared/                   # Cross-cutting concerns (unchanged)
+```
+
+**Structure Decision**: Clean Architecture with federated data layer approach. Domain layer contains pure business logic. Application layer manages Redux state and orchestrates use cases. **NEW**: Separate data packages for mobile and web with platform-specific implementations. Infrastructure layers provide platform-specific adapters. Presentation layers contain only UI components. Dependency injection ensures loose coupling between layers.
+
+## Phase 2: Implementation Tasks
+
+### Task 1: Create Shared Data Package
+- [ ] Create `packages/data-shared` package structure
+- [ ] Define shared data contracts (HTTP, Storage, Repository interfaces)
+- [ ] Implement shared axios HTTP client
+- [ ] Create shared data mappers
+- [ ] Define shared DTOs and interfaces
+- [ ] Add comprehensive tests for shared data layer
+
+### Task 2: Create Mobile Data Package
+- [ ] Create `packages/data-mobile` package structure
+- [ ] Import shared contracts from data-shared
+- [ ] Implement mobile-specific storage adapters
+- [ ] Import shared HTTP client and mappers from data-shared
+- [ ] Add comprehensive tests for mobile data layer
+
+### Task 3: Create Web Data Package
+- [ ] Create `packages/data-web` package structure
+- [ ] Import shared contracts from data-shared
+- [ ] Implement web-specific storage adapters
+- [ ] Import shared HTTP client and mappers from data-shared
+- [ ] Add comprehensive tests for web data layer
+
+### Task 4: Refactor Infrastructure Layers
+- [ ] Remove duplicated data logic from `infra-mobile` and `infra-web`
+- [ ] Keep only storage adapters in infrastructure layers
+- [ ] Update dependency injection configuration
+- [ ] Add contract tests for platform implementations
+
+### Task 5: Update Application Layer
+- [ ] Update use cases to use new data layer interfaces
+- [ ] Refactor Redux thunks to use new data contracts
+- [ ] Update selectors if needed
+- [ ] Ensure no direct infrastructure dependencies
+- [ ] Add integration tests
+
+### Task 6: Update Dependency Injection
+- [ ] Create new DI bindings for data layers
+- [ ] Update platform-specific containers
+- [ ] Add feature-specific sub-containers if needed
+- [ ] Update bootstrap configuration
+- [ ] Add DI tests
+
+### Task 7: Testing & Validation
+- [ ] Add contract tests for data layer interfaces
+- [ ] Create mock implementations for testing
+- [ ] Update existing tests to use new structure
+- [ ] Add integration tests for federated data sources
+- [ ] Validate Clean Architecture compliance
 
 ## Complexity Tracking
 
@@ -136,6 +193,7 @@ packages/
 
 | Violation | Why Needed | Simpler Alternative Rejected Because |
 |-----------|------------|-------------------------------------|
-| [e.g., 4th project] | [current need] | [why 3 projects insufficient] |
-| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient] |
+| Separate Data Packages | Platform-specific optimizations and implementations | Single data package would require complex platform detection |
+| Federated Data Layer | Platform-agnostic data contracts | Direct platform dependencies create tight coupling |
+| Contract Testing | Ensure data layer reliability | Unit tests alone don't catch integration issues |
 

@@ -158,6 +158,435 @@ Hero (1) ←→ (N) Favorite
 - Get user favorites
 - Toggle favorite status
 
+## Federated Data Layer Architecture
+
+### Shared Data Package (`packages/data-shared`)
+```
+data-shared/
+├── src/
+│   ├── contracts/           # Shared data contracts
+│   │   ├── http-client.interface.ts
+│   │   ├── storage-repository.interface.ts
+│   │   └── hero-repository.interface.ts
+│   ├── http/               # Shared axios HTTP client
+│   │   └── axios-http-client.ts
+│   ├── mappers/            # Shared data mappers
+│   │   ├── hero.mapper.ts
+│   │   ├── comic.mapper.ts
+│   │   └── movie.mapper.ts
+│   └── types/              # Shared DTOs and interfaces
+│       ├── hero.dto.ts
+│       ├── comic.dto.ts
+│       ├── movie.dto.ts
+│       └── common.types.ts
+└── tests/
+```
+
+### Mobile Data Package (`packages/data-mobile`)
+```
+data-mobile/
+├── src/
+│   ├── adapters/           # Platform-agnostic adapters
+│   │   ├── hero-repository.adapter.ts
+│   │   └── favorite-repository.adapter.ts
+│   ├── implementations/     # Mobile-specific implementations (storage only)
+│   │   ├── async-storage.repository.ts
+│   │   └── mobile-hero-repository.ts
+│   └── sources/           # Data source implementations
+│       ├── mock-heroes.source.ts
+│       └── mock-comics.source.ts
+└── tests/
+```
+
+### Web Data Package (`packages/data-web`)
+```
+data-web/
+├── src/
+│   ├── adapters/           # Platform-agnostic adapters
+│   │   ├── hero-repository.adapter.ts
+│   │   └── favorite-repository.adapter.ts
+│   ├── implementations/     # Web-specific implementations (storage only)
+│   │   ├── local-storage.repository.ts
+│   │   └── web-hero-repository.ts
+│   └── sources/           # Data source implementations
+│       ├── mock-heroes.source.ts
+│       └── mock-comics.source.ts
+└── tests/
+```
+
+### Data Transfer Objects (DTOs)
+
+#### HeroDto
+```typescript
+interface HeroDto {
+  id: string;
+  name: string;
+  description: string;
+  imageUrl: string;
+  thumbnailUrl: string;
+  comics: ComicDto[];
+  movies: MovieDto[];
+  characteristics: HeroCharacteristicsDto;
+  createdAt: string;
+  updatedAt: string;
+}
+```
+
+#### ComicDto
+```typescript
+interface ComicDto {
+  id: string;
+  title: string;
+  description: string;
+  imageUrl: string;
+  publishedDate: string;
+  pageCount: number;
+  price: number;
+}
+```
+
+#### MovieDto
+```typescript
+interface MovieDto {
+  id: string;
+  title: string;
+  description: string;
+  imageUrl: string;
+  releaseDate: string;
+  duration: number;
+  rating: number;
+}
+```
+
+### Shared Implementations
+
+#### Shared Axios HTTP Client
+```typescript
+// packages/data-shared/src/http/axios-http-client.ts
+export class AxiosHttpClient implements HttpClient {
+  constructor(private axiosInstance: AxiosInstance) {}
+  
+  async get<T>(url: string, config?: RequestConfig): Promise<T> {
+    const response = await this.axiosInstance.get(url, config);
+    return response.data;
+  }
+  
+  async post<T>(url: string, data: any, config?: RequestConfig): Promise<T> {
+    const response = await this.axiosInstance.post(url, data, config);
+    return response.data;
+  }
+  
+  async put<T>(url: string, data: any, config?: RequestConfig): Promise<T> {
+    const response = await this.axiosInstance.put(url, data, config);
+    return response.data;
+  }
+  
+  async delete<T>(url: string, config?: RequestConfig): Promise<T> {
+    const response = await this.axiosInstance.delete(url, config);
+    return response.data;
+  }
+}
+```
+
+#### Shared HTTP Client Interface
+```typescript
+// packages/data-shared/src/http/http-client.interface.ts
+export interface HttpClient {
+  get<T>(url: string, config?: RequestConfig): Promise<T>;
+  post<T>(url: string, data: any, config?: RequestConfig): Promise<T>;
+  put<T>(url: string, data: any, config?: RequestConfig): Promise<T>;
+  delete<T>(url: string, config?: RequestConfig): Promise<T>;
+}
+
+export interface RequestConfig {
+  headers?: Record<string, string>;
+  timeout?: number;
+  params?: Record<string, any>;
+}
+```
+
+### Platform-Specific Implementations
+
+#### Mobile Storage Repository
+```typescript
+// packages/data-mobile/src/implementations/async-storage.repository.ts
+export class AsyncStorageRepository implements StorageRepository {
+  async get<T>(key: string): Promise<T | null> {
+    try {
+      const value = await AsyncStorage.getItem(key);
+      return value ? JSON.parse(value) : null;
+    } catch (error) {
+      console.error('Storage get error:', error);
+      return null;
+    }
+  }
+  
+  async set<T>(key: string, value: T): Promise<void> {
+    try {
+      await AsyncStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+      console.error('Storage set error:', error);
+      throw error;
+    }
+  }
+}
+```
+
+#### Web Storage Repository
+```typescript
+// packages/data-web/src/implementations/local-storage.repository.ts
+export class LocalStorageRepository implements StorageRepository {
+  async get<T>(key: string): Promise<T | null> {
+    try {
+      const value = localStorage.getItem(key);
+      return value ? JSON.parse(value) : null;
+    } catch (error) {
+      console.error('Storage get error:', error);
+      return null;
+    }
+  }
+  
+  async set<T>(key: string, value: T): Promise<void> {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+      console.error('Storage set error:', error);
+      throw error;
+    }
+  }
+}
+```
+
+### Data Adapters
+
+#### Mobile Hero Repository Adapter
+```typescript
+// packages/data-mobile/src/adapters/hero-repository.adapter.ts
+import { HttpClient } from '@data-shared/contracts/http-client.interface';
+import { HeroMapper } from '@data-shared/mappers/hero.mapper';
+import { StorageRepository } from '@data-shared/contracts/storage-repository.interface';
+import { HeroRepository } from '@data-shared/contracts/hero-repository.interface';
+
+export class MobileHeroRepositoryAdapter implements HeroRepository {
+  constructor(
+    private httpClient: HttpClient,           // From data-shared
+    private storageRepository: StorageRepository, // Mobile-specific
+    private heroMapper: HeroMapper            // From data-shared
+  ) {}
+  
+  async getHeroes(): Promise<Hero[]> {
+    const cacheKey = 'heroes_list';
+    const cached = await this.storageRepository.get<Hero[]>(cacheKey);
+    
+    if (cached) {
+      return cached;
+    }
+    
+    const response = await this.httpClient.get<HeroDto[]>('/api/heroes');
+    const heroes = response.map(dto => this.heroMapper.toDomain(dto));
+    
+    await this.storageRepository.set(cacheKey, heroes);
+    return heroes;
+  }
+  
+  async getHeroById(id: string): Promise<Hero | null> {
+    const cacheKey = `hero_${id}`;
+    const cached = await this.storageRepository.get<Hero>(cacheKey);
+    
+    if (cached) {
+      return cached;
+    }
+    
+    try {
+      const response = await this.httpClient.get<HeroDto>(`/api/heroes/${id}`);
+      const hero = this.heroMapper.toDomain(response);
+      
+      await this.storageRepository.set(cacheKey, hero);
+      return hero;
+    } catch (error) {
+      return null;
+    }
+  }
+  
+  async searchHeroes(query: string): Promise<Hero[]> {
+    const response = await this.httpClient.get<HeroDto[]>(`/api/heroes/search?q=${encodeURIComponent(query)}`);
+    return response.map(dto => this.heroMapper.toDomain(dto));
+  }
+}
+```
+
+#### Web Hero Repository Adapter
+```typescript
+// packages/data-web/src/adapters/hero-repository.adapter.ts
+import { HttpClient } from '@data-shared/contracts/http-client.interface';
+import { HeroMapper } from '@data-shared/mappers/hero.mapper';
+import { StorageRepository } from '@data-shared/contracts/storage-repository.interface';
+import { HeroRepository } from '@data-shared/contracts/hero-repository.interface';
+
+export class WebHeroRepositoryAdapter implements HeroRepository {
+  constructor(
+    private httpClient: HttpClient,           // From data-shared
+    private storageRepository: StorageRepository, // Web-specific
+    private heroMapper: HeroMapper            // From data-shared
+  ) {}
+  
+  async getHeroes(): Promise<Hero[]> {
+    const cacheKey = 'heroes_list';
+    const cached = await this.storageRepository.get<Hero[]>(cacheKey);
+    
+    if (cached) {
+      return cached;
+    }
+    
+    const response = await this.httpClient.get<HeroDto[]>('/api/heroes');
+    const heroes = response.map(dto => this.heroMapper.toDomain(dto));
+    
+    await this.storageRepository.set(cacheKey, heroes);
+    return heroes;
+  }
+  
+  async getHeroById(id: string): Promise<Hero | null> {
+    const cacheKey = `hero_${id}`;
+    const cached = await this.storageRepository.get<Hero>(cacheKey);
+    
+    if (cached) {
+      return cached;
+    }
+    
+    try {
+      const response = await this.httpClient.get<HeroDto>(`/api/heroes/${id}`);
+      const hero = this.heroMapper.toDomain(response);
+      
+      await this.storageRepository.set(cacheKey, hero);
+      return hero;
+    } catch (error) {
+      return null;
+    }
+  }
+  
+  async searchHeroes(query: string): Promise<Hero[]> {
+    const response = await this.httpClient.get<HeroDto[]>(`/api/heroes/search?q=${encodeURIComponent(query)}`);
+    return response.map(dto => this.heroMapper.toDomain(dto));
+  }
+}
+```
+
+### Import Structure
+
+#### Mobile Solution Imports
+```typescript
+// Mobile app imports data-shared + data-mobile
+import { HttpClient } from '@data-shared/contracts/http-client.interface';
+import { HeroMapper } from '@data-shared/mappers/hero.mapper';
+import { StorageRepository } from '@data-shared/contracts/storage-repository.interface';
+import { HeroRepository } from '@data-shared/contracts/hero-repository.interface';
+
+// Mobile-specific implementations
+import { AsyncStorageRepository } from '@data-mobile/implementations/async-storage.repository';
+import { MobileHeroRepositoryAdapter } from '@data-mobile/adapters/hero-repository.adapter';
+```
+
+#### Web Solution Imports
+```typescript
+// Web app imports data-shared + data-web
+import { HttpClient } from '@data-shared/contracts/http-client.interface';
+import { HeroMapper } from '@data-shared/mappers/hero.mapper';
+import { StorageRepository } from '@data-shared/contracts/storage-repository.interface';
+import { HeroRepository } from '@data-shared/contracts/hero-repository.interface';
+
+// Web-specific implementations
+import { LocalStorageRepository } from '@data-web/implementations/local-storage.repository';
+import { WebHeroRepositoryAdapter } from '@data-web/adapters/hero-repository.adapter';
+```
+
+### Shared Mappers
+
+#### Hero Mapper (Shared)
+```typescript
+// packages/data-shared/src/mappers/hero.mapper.ts
+export class HeroMapper {
+  toDomain(dto: HeroDto): Hero {
+    return new Hero(
+      dto.id,
+      dto.name,
+      dto.description,
+      dto.imageUrl,
+      dto.thumbnailUrl,
+      dto.comics.map(comicDto => this.toComic(comicDto)),
+      dto.movies.map(movieDto => this.toMovie(movieDto)),
+      new HeroCharacteristics(
+        dto.characteristics.powers,
+        dto.characteristics.weaknesses,
+        dto.characteristics.affiliations,
+        dto.characteristics.aliases
+      ),
+      new Date(dto.createdAt),
+      new Date(dto.updatedAt)
+    );
+  }
+  
+  toComic(dto: ComicDto): Comic {
+    return new Comic(
+      dto.id,
+      dto.title,
+      dto.description,
+      dto.imageUrl,
+      new Date(dto.publishedDate),
+      dto.pageCount,
+      dto.price
+    );
+  }
+  
+  toMovie(dto: MovieDto): Movie {
+    return new Movie(
+      dto.id,
+      dto.title,
+      dto.description,
+      dto.imageUrl,
+      new Date(dto.releaseDate),
+      dto.duration,
+      dto.rating
+    );
+  }
+}
+```
+
+#### Comic Mapper (Shared)
+```typescript
+// packages/data-shared/src/mappers/comic.mapper.ts
+export class ComicMapper {
+  toDomain(dto: ComicDto): Comic {
+    return new Comic(
+      dto.id,
+      dto.title,
+      dto.description,
+      dto.imageUrl,
+      new Date(dto.publishedDate),
+      dto.pageCount,
+      dto.price
+    );
+  }
+}
+```
+
+#### Movie Mapper (Shared)
+```typescript
+// packages/data-shared/src/mappers/movie.mapper.ts
+export class MovieMapper {
+  toDomain(dto: MovieDto): Movie {
+    return new Movie(
+      dto.id,
+      dto.title,
+      dto.description,
+      dto.imageUrl,
+      new Date(dto.releaseDate),
+      dto.duration,
+      dto.rating
+    );
+  }
+}
+```
+
 ## Validation Rules
 
 ### Domain Validation

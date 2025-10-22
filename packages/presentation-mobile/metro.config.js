@@ -22,6 +22,11 @@ const config = {
       '@shared': path.resolve(__dirname, '../shared/src'),
       '@infra-mobile': path.resolve(__dirname, '../infra-mobile/src'),
     },
+    nodeModulesPaths: [
+      path.resolve(__dirname, '../../node_modules'),
+      path.resolve(__dirname, 'node_modules'),
+    ],
+    platforms: ['ios', 'android', 'native', 'web'],
   },
 };
 

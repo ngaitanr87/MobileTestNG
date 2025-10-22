@@ -20,6 +20,7 @@
   "dependencies": {
     "@marvel-heroes/application": "file:../application",
     "@marvel-heroes/shared": "file:../shared",
+    "@react-native-community/cli": "^20.0.2",
     "@react-native/metro-config": "^0.82.0",
     "@react-navigation/native": "^6.1.0",
     "@reduxjs/toolkit": "^2.9.1",

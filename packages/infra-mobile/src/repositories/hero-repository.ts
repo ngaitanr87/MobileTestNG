@@ -1,6 +1,7 @@
 import { IHeroRepository } from '@domain/interfaces/i-hero-repository';
 import { Hero } from '@domain/entities/hero';
 import { HeroCharacteristics } from '@domain/value-objects/hero-characteristics';
+import { logger } from '@shared/logging';
 const heroesData: any[] = require('../data/heroes.json');
 
 export class MobileHeroRepository implements IHeroRepository {
@@ -62,7 +63,7 @@ export class MobileHeroRepository implements IHeroRepository {
         });
       });
     } catch (error) {
-      console.error('Failed to load heroes data:', error);
+      logger.error('Failed to load heroes data:', error);
       this.heroes = [];
     }
   }
