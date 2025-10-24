@@ -1,318 +1,347 @@
-# Tasks: Marvel Heroes App
+# Implementation Tasks: Marvel Heroes App
 
-**Input**: Design documents from `/specs/001-marvel-heroes-app/`
-**Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/
+**Feature**: Marvel Heroes App  
+**Branch**: `001-marvel-heroes-app`  
+**Created**: 2025-01-27  
+**Purpose**: SOLID Principles Architecture Implementation
 
-**Tests**: Test-first development approach with 90% code coverage requirement per constitution
+## Overview
 
-**Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
+This document contains all tasks needed to implement the Marvel Heroes App with Clean Architecture, Dependency Inversion Principle, and SOLID principles compliance. The architecture includes abstract_data package with interfaces, platform-specific implementations, and direct app packages.
 
-## Format: `[ID] [P?] [Story] Description`
-- **[P]**: Can run in parallel (different files, no dependencies)
-- **[Story]**: Which user story this task belongs to (e.g., US1, US2, US3)
-- Include exact file paths in descriptions
+## Dependencies
 
-## Path Conventions (Clean Architecture)
-- **Domain layer**: `packages/domain/src/` - Pure TypeScript, no framework deps
-- **Application layer**: `packages/application/src/` - Redux Toolkit, use case orchestration
-- **Infrastructure layers**: `packages/infra-mobile/src/`, `packages/infra-web/src/` - Platform adapters
-- **Presentation layers**: `packages/presentation-mobile/src/`, `packages/presentation-web/src/` - UI components
-- **Dependency Injection**: `packages/di/src/` - Containers and bindings
-- **Shared utilities**: `packages/shared/src/` - Cross-cutting concerns
+### Story Completion Order
+- **Phase 1**: Setup (project initialization)
+- **Phase 2**: Foundational (blocking prerequisites)
+- **Phase 3**: User Story 1 - Browse and Search Heroes (P1)
+- **Phase 4**: User Story 2 - View Hero Details (P1) 
+- **Phase 5**: User Story 3 - Manage Favorites (P2)
+- **Phase 6**: Polish & Cross-Cutting Concerns
 
-## Phase 1: Setup (Shared Infrastructure)
+### Parallel Execution Opportunities
+- Abstract data package creation can run in parallel with domain updates
+- Mobile and web data packages can be implemented in parallel
+- React Native and React web apps can be developed in parallel
+- Testing and validation tasks can run in parallel with implementation
 
-**Purpose**: Project initialization and basic structure
+## Phase 1: Setup (Project Initialization)
 
-- [x] T001 Create project structure per implementation plan in packages/
-- [x] T002 Initialize TypeScript project with React Native and React dependencies
-- [x] T003 [P] Configure ESLint and Prettier for Clean Architecture layer isolation
-- [x] T004 [P] Setup Jest testing framework with React Testing Library
-- [x] T005 [P] Configure TypeScript paths and module resolution
-- [x] T006 [P] Setup package.json scripts for build, test, and lint
+### T001 Create Project Structure
+- [X] T001 Create packages directory structure per implementation plan
+- [X] T002 Create domain package structure in packages/domain/
+- [X] T003 Create data directory structure in packages/data/
+- [X] T004 Create rnApp package structure in packages/rnApp/
+- [X] T005 Create react-app package structure in packages/react-app/
 
----
+### T006 Initialize Package Configurations
+- [X] T006 Create package.json files for all packages following dependency structure
+- [X] T007 Configure TypeScript for all packages
+- [X] T008 Configure Jest testing for all packages
+- [X] T009 Configure ESLint for all packages
+- [X] T010 Set up path aliases for monorepo imports
 
 ## Phase 2: Foundational (Blocking Prerequisites)
 
-**Purpose**: Core infrastructure that MUST be complete before ANY user story can be implemented
+### T011 Create Abstract Data Package
+- [X] T011 Create packages/data/abstract_data package structure
+- [X] T012 [P] Define ILocalStorageDataSource interface in packages/data/abstract_data/src/contracts/ILocalStorageDataSource.ts
+- [X] T013 [P] Define IHttpClient interface in packages/data/abstract_data/src/contracts/IHttpClient.ts
+- [X] T014 [P] Define IHeroRepository interface in packages/data/abstract_data/src/contracts/IHeroRepository.ts
+- [X] T015 [P] Define IFavoriteRepository interface in packages/data/abstract_data/src/contracts/IFavoriteRepository.ts
+- [X] T016 [P] Define IComicRepository interface in packages/data/abstract_data/src/contracts/IComicRepository.ts
+- [X] T017 [P] Define IMovieRepository interface in packages/data/abstract_data/src/contracts/IMovieRepository.ts
+- [X] T018 [P] Implement shared axios HTTP client in packages/data/abstract_data/src/http/AxiosHttpClient.ts
+- [X] T019 [P] Create HeroMapper in packages/data/abstract_data/src/mappers/HeroMapper.ts
+- [X] T020 [P] Create ComicMapper in packages/data/abstract_data/src/mappers/ComicMapper.ts
+- [X] T021 [P] Create MovieMapper in packages/data/abstract_data/src/mappers/MovieMapper.ts
+- [X] T022 [P] Define HeroDto in packages/data/abstract_data/src/types/HeroDto.ts
+- [X] T023 [P] Define ComicDto in packages/data/abstract_data/src/types/ComicDto.ts
+- [X] T024 [P] Define MovieDto in packages/data/abstract_data/src/types/MovieDto.ts
+- [X] T025 [P] Define common types in packages/data/abstract_data/src/types/CommonTypes.ts
+- [X] T026 Add comprehensive tests for abstract data layer in packages/data/abstract_data/tests/
+- [X] T027 Ensure all interfaces follow Interface Segregation Principle
 
-**⚠️ CRITICAL**: No user story work can begin until this phase is complete
+### T028 Update Domain Layer
+### T041A Create Mobile Data Package (Foundational)
+- [X] T041A Create `packages/data/mobile_data` package structure
+- [X] T041B Import interfaces from abstract_data in packages/data/mobile_data/src/
+- [X] T041C Implement AsyncStorageRepository in packages/data/mobile_data/src/implementations/AsyncStorageRepository.ts
+- [X] T041D Add foundational tests for mobile_data (contract tests skeleton)
 
-- [x] T007 [P] Setup Domain layer structure with entities and value objects in packages/domain/src/
-- [x] T008 [P] Define repository interfaces in Domain layer in packages/domain/src/interfaces/
-- [x] T009 [P] Create Use Cases in Domain layer with business logic in packages/domain/src/use-cases/
-- [x] T010 [P] Setup Application layer with Redux Toolkit store and slices in packages/application/src/
-- [x] T011 [P] Configure Dependency Injection containers in DI layer in packages/di/src/
-- [x] T012 [P] Setup Infrastructure layer adapters (mobile/web variants) in packages/infra-mobile/src/ and packages/infra-web/src/
-- [x] T013 [P] Create shared utilities and cross-cutting concerns in packages/shared/src/
-- [x] T014 Configure layer isolation linting rules and CI validation
-- [x] T015 [P] Create mock data for 30 Marvel heroes with comics and movies in packages/infra-mobile/src/data/ and packages/infra-web/src/data/
-- [x] T016 [P] Setup error handling and logging infrastructure in packages/shared/src/
+### T050A Create Web Data Package (Foundational)
+- [X] T050A Create `packages/data/web_data` package structure
+- [X] T050B Import interfaces from abstract_data in packages/data/web_data/src/
+- [X] T050C Implement LocalStorageRepository in packages/data/web_data/src/implementations/LocalStorageRepository.ts
+- [X] T050D Add foundational tests for web_data (contract tests skeleton)
 
-**Checkpoint**: Foundation ready - user story implementation can now begin in parallel
+### T060A Create DI Package (Foundational)
+- [X] T060A Create `packages/di` package structure
+- [X] T060B Add tokens and minimal container in packages/di/src/
+- [X] T060C Add DI tests (container bindings resolve correctly)
 
----
+- [X] T028 Update domain package.json to depend on abstract_data
+- [X] T029 Create Hero entity in packages/domain/src/entities/Hero.ts
+- [X] T030 Create HeroCharacteristics value object in packages/domain/src/value-objects/HeroCharacteristics.ts
+- [X] T031 Create Comic entity in packages/domain/src/entities/Comic.ts
+- [X] T032 Create Movie entity in packages/domain/src/entities/Movie.ts
+- [X] T033 Create Favorite entity in packages/domain/src/entities/Favorite.ts
+- [X] T034 Create GetHeroesListUseCase in packages/domain/src/use-cases/GetHeroesListUseCase.ts
+- [X] T035 Create GetHeroDetailsUseCase in packages/domain/src/use-cases/GetHeroDetailsUseCase.ts
+- [X] T036 Create ToggleFavoriteUseCase in packages/domain/src/use-cases/ToggleFavoriteUseCase.ts
+- [X] T037 Create GetFavoritesUseCase in packages/domain/src/use-cases/GetFavoritesUseCase.ts
+- [X] T038 Apply Single Responsibility Principle to all use cases
+- [X] T039 Use Strategy pattern for extensible use case behaviors
+- [X] T040 Add integration tests for domain layer including SOLID validation
 
-## Phase 3: User Story 1 - Browse and Search Heroes (Priority: P1) 🎯 MVP
+## Phase 3: User Story 1 - Browse and Search Heroes (P1)
 
-**Goal**: Display scrollable list of 30 mock Marvel heroes with real-time search functionality
+### T041 Create Mobile Data Package
+- [X] T041 [P] Create packages/data/mobile_data package structure
+- [X] T042 [P] Import interfaces from abstract_data in packages/data/mobile_data/src/
+- [X] T043 [P] Implement AsyncStorageDataSource in packages/data/mobile_data/src/implementations/AsyncStorageDataSource.ts
+- [X] T044 [P] Implement MobileHeroDataSource (DTO list/search) in packages/data/mobile_data/src/sources/MockHeroesSource.ts
+- [X] T045 [P] Implement MobileFavoriteDataSource in packages/data/mobile_data/src/sources/FavoriteDataSource.ts
+- [X] T046 [P] Implement MobileComicDataSource in packages/data/mobile_data/src/sources/ComicDataSource.ts
+- [X] T047 [P] Implement MobileMovieDataSource in packages/data/mobile_data/src/sources/MovieDataSource.ts
+- [X] T048 [P] Use Strategy pattern for different storage implementations
+- [X] T049 [P] Add comprehensive tests for mobile data layer including LSP validation
 
-**Independent Test**: Can be fully tested by displaying a list of heroes with search functionality and verifying users can find and select heroes to view details.
+### T050 Create Web Data Package
+- [X] T050 [P] Create packages/data/web_data package structure
+- [X] T051 [P] Import interfaces from abstract_data in packages/data/web_data/src/
+- [X] T052 [P] Implement LocalStorageDataSource in packages/data/web_data/src/implementations/LocalStorageDataSource.ts
+- [X] T053 [P] Implement WebHeroDataSource (DTO list/search) in packages/data/web_data/src/sources/MockHeroesSource.ts
+- [X] T054 [P] Implement WebFavoriteDataSource in packages/data/web_data/src/sources/FavoriteDataSource.ts
+- [X] T055 [P] Implement WebComicDataSource in packages/data/web_data/src/sources/ComicDataSource.ts
+- [X] T056 [P] Implement WebMovieDataSource in packages/data/web_data/src/sources/MovieDataSource.ts
+- [X] T057 [P] Use Strategy pattern for different storage implementations
+- [X] T058 [P] Add comprehensive tests for web data layer including LSP validation
 
-### Tests for User Story 1 ⚠️
+### User Story 1 – Additional Tasks (P1)
 
-**NOTE: Write these tests FIRST, ensure they FAIL before implementation**
+# Data fixtures and sources
+- [X] T149 [P] Add heroes.json fixture in packages/data/mobile_data/data/heroes.json
+- [X] T150 [P] Add heroes.json fixture in packages/data/web_data/data/heroes.json
 
-- [x] T017 [P] [US1] Domain unit test for GetHeroesListUseCase in packages/domain/tests/use-cases/test_get-heroes-list-use-case.ts
-- [x] T018 [P] [US1] Domain unit test for Hero entity in packages/domain/tests/entities/test_hero.ts
-- [x] T019 [P] [US1] Application unit test for heroesSlice in packages/application/tests/slices/test_heroes-slice.ts
-- [x] T020 [P] [US1] Infrastructure contract test in packages/infra-mobile/tests/contracts/test_hero-repository.ts
-- [x] T021 [P] [US1] Infrastructure contract test in packages/infra-web/tests/contracts/test_hero-repository.ts
-- [x] T022 [P] [US1] Presentation test for mobile in packages/presentation-mobile/tests/screens/test_heroes-list-screen.tsx
-- [x] T023 [P] [US1] Presentation test for web in packages/presentation-web/tests/pages/test_heroes-list-page.tsx
+# TDD: contract and source tests first
+- [X] T151 [P] [TDD] Add abstract_data hero list/search contract tests (fail first) in packages/data/abstract_data/tests/contracts/hero-list-contract.test.ts
+- [X] T152 [P] [TDD] Add mobile_data MockHeroesSource list/search tests (fail first) in packages/data/mobile_data/tests/sources/mock-heroes-source.test.ts
+- [X] T153 [P] [TDD] Add web_data MockHeroesSource list/search tests (fail first) in packages/data/web_data/tests/sources/mock-heroes-source.test.ts
 
-### Implementation for User Story 1
+# Implement sources to satisfy tests
+- [X] T154 [P] Implement MobileHeroDataSource in packages/data/mobile_data/src/sources/MockHeroesSource.ts
+- [X] T155 [P] Implement WebHeroDataSource in packages/data/web_data/src/sources/MockHeroesSource.ts
 
-- [x] T024 [P] [US1] Create Hero entity in packages/domain/src/entities/hero.ts
-- [x] T025 [P] [US1] Create HeroCharacteristics value object in packages/domain/src/value-objects/hero-characteristics.ts
-- [x] T026 [P] [US1] Define IHeroRepository interface in packages/domain/src/interfaces/i-hero-repository.ts
-- [x] T027 [US1] Implement GetHeroesListUseCase in packages/domain/src/use-cases/get-heroes-list-use-case.ts (depends on T024, T025, T026)
-- [x] T028 [P] [US1] Create heroesSlice in packages/application/src/slices/heroes-slice.ts
-- [x] T029 [US1] Implement getHeroesList thunk in packages/application/src/thunks/get-heroes-list-thunk.ts (depends on T027)
-- [x] T030 [P] [US1] Create hero selectors in packages/application/src/selectors/heroes-selectors.ts
-- [x] T031 [P] [US1] Create HeroRepository implementation in packages/infra-mobile/src/repositories/hero-repository.ts
-- [x] T032 [P] [US1] Create HeroRepository implementation in packages/infra-web/src/repositories/hero-repository.ts
-- [x] T033 [P] [US1] Create HeroesListScreen in packages/presentation-mobile/src/screens/heroes-list-screen.tsx
-- [x] T034 [P] [US1] Create HeroesListPage in packages/presentation-web/src/pages/heroes-list-page.tsx
-- [x] T035 [P] [US1] Create HeroCard component in packages/presentation-mobile/src/components/hero-card.tsx
-- [x] T036 [P] [US1] Create HeroCard component in packages/presentation-web/src/components/hero-card.tsx
-- [x] T037 [P] [US1] Create SearchInput component in packages/presentation-mobile/src/components/search-input.tsx
-- [x] T038 [P] [US1] Create SearchInput component in packages/presentation-web/src/components/search-input.tsx
-- [x] T039 [US1] Configure DI bindings for hero repository in packages/di/src/containers/hero-container.ts
-- [x] T040 [US1] Add error handling for hero loading failures in packages/shared/src/error-handling/
+# TDD: domain repository (shared) tests before implementation
+- [X] T156 [P] [TDD] Add domain HeroRepository tests (DTO→domain mapping, search) in packages/domain/tests/repositories/test_hero-repository.ts
 
-**Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
+# Shared domain repository implementation
+- [X] T173 Implement shared HeroRepository (implements domain IHeroRepository, maps DTO→domain via HeroMapper) in packages/domain/src/repositories/hero-repository.ts
+- [X] T174 Export repository from packages/domain/src/repositories/index.ts and packages/domain/src/index.ts
 
----
+# DI composition roots
+- [X] T158 Create DI composition for rnApp: bind Tokens.LocalStorageDataSource→AsyncStorageDataSource; bind Tokens.HeroDataSource→MobileHeroDataSource; bind Tokens.HeroRepository→shared domain HeroRepository in packages/rnApp/src/di/container.ts
+- [X] T159 Create DI composition for react-app: bind Tokens.LocalStorageDataSource→LocalStorageDataSource; bind Tokens.HeroDataSource→WebHeroDataSource; bind Tokens.HeroRepository→shared domain HeroRepository in packages/react-app/src/di/container.ts
 
-## Phase 4: User Story 2 - View Hero Details (Priority: P1)
+# State, selectors, debounce
+- [X] T160 Define search state shape and selectors (items, searchTerm, status, error; filteredHeroes) in packages/rnApp/src/store/slices/searchSlice.ts
+- [X] T161 Define search state shape and selectors (items, searchTerm, status, error; filteredHeroes) in packages/react-app/src/store/slices/searchSlice.ts
+- [X] T162 Implement 300ms debounce for search input to meet SC-002 in packages/rnApp/src/components/SearchBar.tsx
+- [X] T163 Implement 300ms debounce for search input to meet SC-002 in packages/react-app/src/components/SearchBar.tsx
 
-**Goal**: Display comprehensive hero details including characteristics, comics, and movies with "show more" functionality
+# Performance checks for SC-001/SC-002
+- [X] T164 Add timing/perf marks to verify <2s list and <500ms search in packages/rnApp/src/screens/HeroListScreen.tsx
+- [X] T165 Add timing/perf marks to verify <2s list and <500ms search in packages/react-app/src/pages/HeroListPage.tsx
 
-**Independent Test**: Can be fully tested by selecting any hero from the list and verifying all detailed information is displayed correctly.
+# Coverage thresholds (90%)
+- [X] T166 Set jest coverageThreshold (branches/functions/lines/statements 90) in packages/data/abstract_data/jest.config.js
+- [X] T167 Set jest coverageThreshold (90) in packages/data/mobile_data/jest.config.js
+- [X] T168 Set jest coverageThreshold (90) in packages/data/web_data/jest.config.js
+- [X] T169 Set jest coverageThreshold (90) in packages/domain/jest.config.js
+- [X] T170 Set jest coverageThreshold (90) in packages/rnApp/jest.config.js
+- [X] T171 Set jest coverageThreshold (90) in packages/react-app/jest.config.js
+***
+- [X] T160 Define search state shape and selectors (items, searchTerm, status, error; filteredHeroes) in packages/rnApp/src/store/slices/searchSlice.ts
+- [X] T161 Define search state shape and selectors (items, searchTerm, status, error; filteredHeroes) in packages/react-app/src/store/slices/searchSlice.ts
+- [X] T162 Implement 300ms debounce for search input to meet SC-002 in packages/rnApp/src/components/SearchBar.tsx
+- [X] T163 Implement 300ms debounce for search input to meet SC-002 in packages/react-app/src/components/SearchBar.tsx
+- [X] T164 Add timing/perf marks to verify <2s list and <500ms search in packages/rnApp/src/screens/HeroListScreen.tsx
+- [X] T165 Add timing/perf marks to verify <2s list and <500ms search in packages/react-app/src/pages/HeroListPage.tsx
+- [X] T166 Set jest coverageThreshold (branches/functions/lines/statements 90) in packages/data/abstract_data/jest.config.js
+- [X] T167 Set jest coverageThreshold (90) in packages/data/mobile_data/jest.config.js
+- [X] T168 Set jest coverageThreshold (90) in packages/data/web_data/jest.config.js
 
-### Tests for User Story 2 ⚠️
+# CI script for coverage
+- [ ] T172 Add root script "test:coverage:all" to run workspace coverage and fail under threshold in package.json
 
-- [ ] T041 [P] [US2] Domain unit test for GetHeroDetailsUseCase in packages/domain/tests/use-cases/test_get-hero-details-use-case.ts
-- [ ] T042 [P] [US2] Domain unit test for Comic entity in packages/domain/tests/entities/test_comic.ts
-- [ ] T043 [P] [US2] Domain unit test for Movie entity in packages/domain/tests/entities/test_movie.ts
-- [ ] T044 [P] [US2] Application unit test for heroDetailsSlice in packages/application/tests/slices/test_hero-details-slice.ts
-- [ ] T045 [P] [US2] Infrastructure contract test in packages/infra-mobile/tests/contracts/test_comic-repository.ts
-- [ ] T046 [P] [US2] Infrastructure contract test in packages/infra-mobile/tests/contracts/test_movie-repository.ts
-- [ ] T047 [P] [US2] Infrastructure contract test in packages/infra-web/tests/contracts/test_comic-repository.ts
-- [ ] T048 [P] [US2] Infrastructure contract test in packages/infra-web/tests/contracts/test_movie-repository.ts
-- [ ] T049 [P] [US2] Presentation test for mobile in packages/presentation-mobile/tests/screens/test_hero-detail-screen.tsx
-- [ ] T050 [P] [US2] Presentation test for web in packages/presentation-web/tests/pages/test_hero-detail-page.tsx
+### T059 Create React Native App
+- [X] T059 [P] Create packages/rnApp package structure
+- [X] T060 [P] Set up React Native project with proper dependencies in packages/rnApp/
+- [X] T061 [P] Import domain and mobile_data packages in packages/rnApp/src/
+- [X] T062 [P] Implement Redux store configuration in packages/rnApp/src/store/store.ts
+- [X] T063 [P] Create heroes slice in packages/rnApp/src/store/slices/heroesSlice.ts
+- [X] T064 [P] Create search slice in packages/rnApp/src/store/slices/searchSlice.ts
+- [X] T065 [P] Create favorites slice in packages/rnApp/src/store/slices/favoritesSlice.ts
+- [X] T066 [P] Implement Redux thunks for hero operations in packages/rnApp/src/store/thunks/heroThunks.ts
+- [X] T067 [P] Create HeroListScreen component in packages/rnApp/src/screens/HeroListScreen.tsx
+- [X] T068 [P] Create HeroCard component in packages/rnApp/src/components/HeroCard.tsx
+- [X] T069 [P] Create SearchBar component in packages/rnApp/src/components/SearchBar.tsx
+- [X] T070 [P] Create LoadingSpinner component in packages/rnApp/src/components/LoadingSpinner.tsx
+- [X] T071 [P] Create ErrorMessage component in packages/rnApp/src/components/ErrorMessage.tsx
+- [X] T072 [P] Use Strategy pattern for different UI behaviors
+- [X] T073 [P] Add comprehensive tests for React Native app including SOLID validation
 
-### Implementation for User Story 2
+### T074 Create React Web App
+- [X] T074 [P] Create packages/react-app package structure
+- [X] T075 [P] Set up React project with proper dependencies in packages/react-app/
+- [X] T076 [P] Import domain and web_data packages in packages/react-app/src/
+- [X] T077 [P] Implement Redux store configuration in packages/react-app/src/store/store.ts
+- [X] T078 [P] Create heroes slice in packages/react-app/src/store/slices/heroesSlice.ts
+- [X] T079 [P] Create search slice in packages/react-app/src/store/slices/searchSlice.ts
+- [X] T080 [P] Create favorites slice in packages/react-app/src/store/slices/favoritesSlice.ts
+- [X] T081 [P] Implement Redux thunks for hero operations in packages/react-app/src/store/thunks/heroThunks.ts
+- [X] T082 [P] Create HeroListPage component in packages/react-app/src/pages/HeroListPage.tsx
+- [X] T083 [P] Create HeroCard component in packages/react-app/src/components/HeroCard.tsx
+- [X] T084 [P] Create SearchBar component in packages/react-app/src/components/SearchBar.tsx
+- [X] T085 [P] Create LoadingSpinner component in packages/react-app/src/components/LoadingSpinner.tsx
+- [X] T086 [P] Create ErrorMessage component in packages/react-app/src/components/ErrorMessage.tsx
+- [X] T087 [P] Use Strategy pattern for different UI behaviors
+- [X] T088 [P] Add comprehensive tests for React web app including SOLID validation
 
-- [ ] T051 [P] [US2] Create Comic entity in packages/domain/src/entities/comic.ts
-- [ ] T052 [P] [US2] Create Movie entity in packages/domain/src/entities/movie.ts
-- [ ] T053 [P] [US2] Define IComicRepository interface in packages/domain/src/interfaces/i-comic-repository.ts
-- [ ] T054 [P] [US2] Define IMovieRepository interface in packages/domain/src/interfaces/i-movie-repository.ts
-- [ ] T055 [US2] Implement GetHeroDetailsUseCase in packages/domain/src/use-cases/get-hero-details-use-case.ts (depends on T051, T052, T053, T054)
-- [ ] T056 [P] [US2] Create heroDetailsSlice in packages/application/src/slices/hero-details-slice.ts
-- [ ] T057 [US2] Implement getHeroDetails thunk in packages/application/src/thunks/get-hero-details-thunk.ts (depends on T055)
-- [ ] T058 [P] [US2] Create hero details selectors in packages/application/src/selectors/hero-details-selectors.ts
-- [ ] T059 [P] [US2] Create ComicRepository implementation in packages/infra-mobile/src/repositories/comic-repository.ts
-- [ ] T060 [P] [US2] Create MovieRepository implementation in packages/infra-mobile/src/repositories/movie-repository.ts
-- [ ] T061 [P] [US2] Create ComicRepository implementation in packages/infra-web/src/repositories/comic-repository.ts
-- [ ] T062 [P] [US2] Create MovieRepository implementation in packages/infra-web/src/repositories/movie-repository.ts
-- [ ] T063 [P] [US2] Create HeroDetailScreen in packages/presentation-mobile/src/screens/hero-detail-screen.tsx
-- [ ] T064 [P] [US2] Create HeroDetailPage in packages/presentation-web/src/pages/hero-detail-page.tsx
-- [ ] T065 [P] [US2] Create HeroCharacteristics component in packages/presentation-mobile/src/components/hero-characteristics.tsx
-- [ ] T066 [P] [US2] Create HeroCharacteristics component in packages/presentation-web/src/components/hero-characteristics.tsx
-- [ ] T067 [P] [US2] Create ComicsList component in packages/presentation-mobile/src/components/comics-list.tsx
-- [ ] T068 [P] [US2] Create ComicsList component in packages/presentation-web/src/components/comics-list.tsx
-- [ ] T069 [P] [US2] Create MoviesList component in packages/presentation-mobile/src/components/movies-list.tsx
-- [ ] T070 [P] [US2] Create MoviesList component in packages/presentation-web/src/components/movies-list.tsx
-- [ ] T071 [P] [US2] Create ShowMoreButton component in packages/presentation-mobile/src/components/show-more-button.tsx
-- [ ] T072 [P] [US2] Create ShowMoreButton component in packages/presentation-web/src/components/show-more-button.tsx
-- [ ] T073 [US2] Configure DI bindings for comic and movie repositories in packages/di/src/containers/hero-detail-container.ts
-- [ ] T074 [US2] Add navigation from hero list to hero detail in packages/presentation-mobile/src/navigation/ and packages/presentation-web/src/routing/
+## Phase 4: User Story 2 - View Hero Details (P1)
 
-**Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
+### T089 [US2] Create Hero Detail Screen (React Native)
+- [ ] T089 [US2] Create HeroDetailScreen component in packages/rnApp/src/screens/HeroDetailScreen.tsx
+- [ ] T090 [US2] Create HeroCharacteristics component in packages/rnApp/src/components/HeroCharacteristics.tsx
+- [ ] T091 [US2] Create ComicsList component in packages/rnApp/src/components/ComicsList.tsx
+- [ ] T092 [US2] Create MoviesList component in packages/rnApp/src/components/MoviesList.tsx
+- [ ] T093 [US2] Create ComicCard component in packages/rnApp/src/components/ComicCard.tsx
+- [ ] T094 [US2] Create MovieCard component in packages/rnApp/src/components/MovieCard.tsx
+- [ ] T095 [US2] Create ShowMoreButton component in packages/rnApp/src/components/ShowMoreButton.tsx
+- [ ] T096 [US2] Implement navigation between screens in packages/rnApp/src/navigation/
+- [ ] T097 [US2] Add comprehensive tests for hero detail functionality
 
----
+### T098 [US2] Create Hero Detail Page (React Web)
+- [ ] T098 [US2] Create HeroDetailPage component in packages/react-app/src/pages/HeroDetailPage.tsx
+- [ ] T099 [US2] Create HeroCharacteristics component in packages/react-app/src/components/HeroCharacteristics.tsx
+- [ ] T100 [US2] Create ComicsList component in packages/react-app/src/components/ComicsList.tsx
+- [ ] T101 [US2] Create MoviesList component in packages/react-app/src/components/MoviesList.tsx
+- [ ] T102 [US2] Create ComicCard component in packages/react-app/src/components/ComicCard.tsx
+- [ ] T103 [US2] Create MovieCard component in packages/react-app/src/components/MovieCard.tsx
+- [ ] T104 [US2] Create ShowMoreButton component in packages/react-app/src/components/ShowMoreButton.tsx
+- [ ] T105 [US2] Implement routing between pages in packages/react-app/src/routing/
+- [ ] T106 [US2] Add comprehensive tests for hero detail functionality
 
-## Phase 5: User Story 3 - Manage Favorites (Priority: P2)
+## Phase 5: User Story 3 - Manage Favorites (P2)
 
-**Goal**: Allow users to mark heroes as favorites from both list and detail screens with persistence
+### T107 [US3] Implement Favorites Functionality (React Native)
+- [ ] T107 [US3] Create FavoriteButton component in packages/rnApp/src/components/FavoriteButton.tsx
+- [ ] T108 [US3] Implement favorite toggle logic in packages/rnApp/src/hooks/useFavorites.ts
+- [ ] T109 [US3] Add favorite button to HeroCard component
+- [ ] T110 [US3] Add favorite button to HeroDetailScreen
+- [ ] T111 [US3] Implement favorites persistence using AsyncStorage
+- [ ] T112 [US3] Create FavoritesScreen component in packages/rnApp/src/screens/FavoritesScreen.tsx
+- [ ] T113 [US3] Add navigation to favorites screen
+- [ ] T114 [US3] Add comprehensive tests for favorites functionality
 
-**Independent Test**: Can be fully tested by marking heroes as favorites from both screens and verifying they appear in a favorites list or are visually distinguished.
-
-### Tests for User Story 3 ⚠️
-
-- [ ] T075 [P] [US3] Domain unit test for ToggleFavoriteUseCase in packages/domain/tests/use-cases/test_toggle-favorite-use-case.ts
-- [ ] T076 [P] [US3] Domain unit test for GetFavoritesUseCase in packages/domain/tests/use-cases/test_get-favorites-use-case.ts
-- [ ] T077 [P] [US3] Domain unit test for Favorite entity in packages/domain/tests/entities/test_favorite.ts
-- [ ] T078 [P] [US3] Application unit test for favoritesSlice in packages/application/tests/slices/test_favorites-slice.ts
-- [ ] T079 [P] [US3] Infrastructure contract test in packages/infra-mobile/tests/contracts/test_favorite-repository.ts
-- [ ] T080 [P] [US3] Infrastructure contract test in packages/infra-web/tests/contracts/test_favorite-repository.ts
-- [ ] T081 [P] [US3] Presentation test for mobile in packages/presentation-mobile/tests/components/test_favorite-button.tsx
-- [ ] T082 [P] [US3] Presentation test for web in packages/presentation-web/tests/components/test_favorite-button.tsx
-
-### Implementation for User Story 3
-
-- [ ] T083 [P] [US3] Create Favorite entity in packages/domain/src/entities/favorite.ts
-- [ ] T084 [P] [US3] Define IFavoriteRepository interface in packages/domain/src/interfaces/i-favorite-repository.ts
-- [ ] T085 [US3] Implement ToggleFavoriteUseCase in packages/domain/src/use-cases/toggle-favorite-use-case.ts (depends on T083, T084)
-- [ ] T086 [US3] Implement GetFavoritesUseCase in packages/domain/src/use-cases/get-favorites-use-case.ts (depends on T083, T084)
-- [ ] T087 [P] [US3] Create favoritesSlice in packages/application/src/slices/favorites-slice.ts
-- [ ] T088 [US3] Implement toggleFavorite thunk in packages/application/src/thunks/toggle-favorite-thunk.ts (depends on T085)
-- [ ] T089 [US3] Implement getFavorites thunk in packages/application/src/thunks/get-favorites-thunk.ts (depends on T086)
-- [ ] T090 [P] [US3] Create favorites selectors in packages/application/src/selectors/favorites-selectors.ts
-- [ ] T091 [P] [US3] Create FavoriteRepository implementation in packages/infra-mobile/src/repositories/favorite-repository.ts
-- [ ] T092 [P] [US3] Create FavoriteRepository implementation in packages/infra-web/src/repositories/favorite-repository.ts
-- [ ] T093 [P] [US3] Create FavoriteButton component in packages/presentation-mobile/src/components/favorite-button.tsx
-- [ ] T094 [P] [US3] Create FavoriteButton component in packages/presentation-web/src/components/favorite-button.tsx
-- [ ] T095 [US3] Integrate FavoriteButton with HeroCard components (US1)
-- [ ] T096 [US3] Integrate FavoriteButton with HeroDetailScreen/Page (US2)
-- [ ] T097 [US3] Configure DI bindings for favorite repository in packages/di/src/containers/favorite-container.ts
-- [ ] T098 [US3] Add favorites persistence with AsyncStorage/localStorage in packages/infra-mobile/src/storage/ and packages/infra-web/src/storage/
-- [ ] T099 [US3] Add visual indication of favorite status (filled/unfilled heart icon) in all favorite buttons
-
-**Checkpoint**: All user stories should now be independently functional
-
----
+### T115 [US3] Implement Favorites Functionality (React Web)
+- [ ] T115 [US3] Create FavoriteButton component in packages/react-app/src/components/FavoriteButton.tsx
+- [ ] T116 [US3] Implement favorite toggle logic in packages/react-app/src/hooks/useFavorites.ts
+- [ ] T117 [US3] Add favorite button to HeroCard component
+- [ ] T118 [US3] Add favorite button to HeroDetailPage
+- [ ] T119 [US3] Implement favorites persistence using localStorage
+- [ ] T120 [US3] Create FavoritesPage component in packages/react-app/src/pages/FavoritesPage.tsx
+- [ ] T121 [US3] Add routing to favorites page
+- [ ] T122 [US3] Add comprehensive tests for favorites functionality
 
 ## Phase 6: Polish & Cross-Cutting Concerns
 
-**Purpose**: Improvements that affect multiple user stories
+### T123 Testing & Validation
+- [ ] T123 Add contract tests for data layer interfaces
+- [ ] T124 Create mock implementations for testing
+- [ ] T125 Update existing tests to use new structure
+- [ ] T126 Add integration tests for data sources
+- [ ] T127 Validate Clean Architecture compliance
+- [ ] T128 Add SOLID principles validation tests
+- [ ] T129 Implement Liskov Substitution Principle testing
+- [ ] T130 Add Interface Segregation Principle validation
+- [ ] T131 Create behavioral testing for substitutability
+- [ ] T132 Add code review checklists for SOLID compliance
 
-- [ ] T100 [P] Documentation updates in docs/
-- [ ] T101 Code cleanup and refactoring across all layers
-- [ ] T102 Performance optimization across all stories (bundle size, image loading, state management)
-- [ ] T103 [P] Additional unit tests to achieve 90% code coverage in packages/*/tests/
-- [ ] T104 Security hardening and validation (input sanitization, type checking)
-- [ ] T105 Run quickstart.md validation scenarios
-- [ ] T106 [P] Layer isolation validation and linting
-- [ ] T107 [P] Dependency injection container optimization
-- [ ] T108 Cross-platform testing and validation (iOS, Android, Web)
-- [ ] T109 [P] Shared utilities and cross-cutting concerns review
-- [ ] T110 Add empty states handling (no search results, no favorites, loading states)
-- [ ] T111 Add accessibility features (screen reader support, touch targets)
-- [ ] T112 Add error boundaries and graceful error handling
-- [ ] T113 Performance monitoring and optimization (60fps UI, <2s load times)
+### T133 Performance & Optimization
+- [ ] T133 Implement image lazy loading
+- [ ] T134 Add data caching strategies
+- [ ] T135 Optimize bundle sizes
+- [ ] T136 Implement performance monitoring
+- [ ] T137 Add memory leak detection
+- [ ] T138 Optimize search performance
+- [ ] T139 Implement virtual scrolling for large lists
+- [ ] T140 Add performance testing
 
----
-
-## Dependencies & Execution Order
-
-### Phase Dependencies
-
-- **Setup (Phase 1)**: No dependencies - can start immediately
-- **Foundational (Phase 2)**: Depends on Setup completion - BLOCKS all user stories
-- **User Stories (Phase 3+)**: All depend on Foundational phase completion
-  - User stories can then proceed in parallel (if staffed)
-  - Or sequentially in priority order (P1 → P2 → P3)
-- **Polish (Final Phase)**: Depends on all desired user stories being complete
-
-### User Story Dependencies
-
-- **User Story 1 (P1)**: Can start after Foundational (Phase 2) - No dependencies on other stories
-- **User Story 2 (P2)**: Can start after Foundational (Phase 2) - May integrate with US1 but should be independently testable
-- **User Story 3 (P3)**: Can start after Foundational (Phase 2) - May integrate with US1/US2 but should be independently testable
-
-### Within Each User Story
-
-- Tests (if included) MUST be written and FAIL before implementation
-- Models before services
-- Services before endpoints
-- Core implementation before integration
-- Story complete before moving to next priority
-
-### Parallel Opportunities
-
-- All Setup tasks marked [P] can run in parallel
-- All Foundational tasks marked [P] can run in parallel (within Phase 2)
-- Once Foundational phase completes, all user stories can start in parallel (if team capacity allows)
-- All tests for a user story marked [P] can run in parallel
-- Models within a story marked [P] can run in parallel
-- Different user stories can be worked on in parallel by different team members
-
----
-
-## Parallel Example: User Story 1
-
-```bash
-# Launch all tests for User Story 1 together:
-Task: "Domain unit test for GetHeroesListUseCase in packages/domain/tests/use-cases/test_get-heroes-list-use-case.ts"
-Task: "Domain unit test for Hero entity in packages/domain/tests/entities/test_hero.ts"
-Task: "Application unit test for heroesSlice in packages/application/tests/slices/test_heroes-slice.ts"
-Task: "Infrastructure contract test in packages/infra-mobile/tests/contracts/test_hero-repository.ts"
-Task: "Infrastructure contract test in packages/infra-web/tests/contracts/test_hero-repository.ts"
-
-# Launch all entities and interfaces for User Story 1 together:
-Task: "Create Hero entity in packages/domain/src/entities/hero.ts"
-Task: "Create HeroCharacteristics value object in packages/domain/src/value-objects/hero-characteristics.ts"
-Task: "Define IHeroRepository interface in packages/domain/src/interfaces/i-hero-repository.ts"
-
-# Launch all infrastructure implementations together:
-Task: "Create HeroRepository implementation in packages/infra-mobile/src/repositories/hero-repository.ts"
-Task: "Create HeroRepository implementation in packages/infra-web/src/repositories/hero-repository.ts"
-
-# Launch all presentation components together:
-Task: "Create HeroesListScreen in packages/presentation-mobile/src/screens/heroes-list-screen.tsx"
-Task: "Create HeroesListPage in packages/presentation-web/src/pages/heroes-list-page.tsx"
-Task: "Create HeroCard component in packages/presentation-mobile/src/components/hero-card.tsx"
-Task: "Create HeroCard component in packages/presentation-web/src/components/hero-card.tsx"
-```
-
----
+### T141 Documentation & Maintenance
+- [ ] T141 Create API documentation
+- [ ] T142 Document architecture decisions
+- [ ] T143 Create developer setup guide
+- [ ] T144 Add troubleshooting documentation
+- [ ] T145 Create deployment guides
+- [ ] T146 Add monitoring and logging
+- [ ] T147 Create maintenance procedures
+- [ ] T148 Add security considerations
 
 ## Implementation Strategy
 
-### MVP First (User Story 1 Only)
-
-1. Complete Phase 1: Setup
-2. Complete Phase 2: Foundational (CRITICAL - blocks all stories)
-3. Complete Phase 3: User Story 1
-4. **STOP and VALIDATE**: Test User Story 1 independently
-5. Deploy/demo if ready
+### MVP Scope
+The MVP should focus on **User Story 1 (Browse and Search Heroes)** as it provides the core functionality. This includes:
+- Abstract data package with interfaces
+- Platform-specific data implementations
+- Basic React Native and React web apps
+- Hero list and search functionality
 
 ### Incremental Delivery
+1. **Sprint 1**: Setup and foundational packages (T001-T040)
+2. **Sprint 2**: User Story 1 implementation (T041-T088)
+3. **Sprint 3**: User Story 2 implementation (T089-T106)
+4. **Sprint 4**: User Story 3 implementation (T107-T122)
+5. **Sprint 5**: Polish and optimization (T123-T148)
 
-1. Complete Setup + Foundational → Foundation ready
-2. Add User Story 1 → Test independently → Deploy/Demo (MVP!)
-3. Add User Story 2 → Test independently → Deploy/Demo
-4. Add User Story 3 → Test independently → Deploy/Demo
-5. Each story adds value without breaking previous stories
+### Independent Test Criteria
 
-### Parallel Team Strategy
+#### User Story 1 - Browse and Search Heroes
+- **Independent Test**: Display hero list with search functionality
+- **Success Criteria**: 30 heroes load in <2s, search results in <500ms
+- **Test Scenarios**: Browse list, search by name/description, clear search
 
-With multiple developers:
+#### User Story 2 - View Hero Details  
+- **Independent Test**: Navigate to hero details and view comprehensive information
+- **Success Criteria**: Detail screen loads in <3s, shows characteristics/comics/movies
+- **Test Scenarios**: Tap hero, view details, scroll through comics/movies, show more functionality
 
-1. Team completes Setup + Foundational together
-2. Once Foundational is done:
-   - Developer A: User Story 1
-   - Developer B: User Story 2
-   - Developer C: User Story 3
-3. Stories complete and integrate independently
+#### User Story 3 - Manage Favorites
+- **Independent Test**: Mark heroes as favorites and verify persistence
+- **Success Criteria**: 95% success rate, 100% persistence across restarts
+- **Test Scenarios**: Toggle favorites, verify visual state, check persistence
 
----
+## Task Summary
 
-## Notes
+- **Total Tasks**: 148
+- **Setup Tasks**: 10 (T001-T010)
+- **Foundational Tasks**: 30 (T011-T040)
+- **User Story 1 Tasks**: 48 (T041-T088)
+- **User Story 2 Tasks**: 18 (T089-T106)
+- **User Story 3 Tasks**: 16 (T107-T122)
+- **Polish Tasks**: 26 (T123-T148)
 
-- [P] tasks = different files, no dependencies
-- [Story] label maps task to specific user story for traceability
-- Each user story should be independently completable and testable
-- Verify tests fail before implementing
-- Commit after each task or logical group
-- Stop at any checkpoint to validate story independently
-- Avoid: vague tasks, same file conflicts, cross-story dependencies that break independence
-- Follow Clean Architecture principles with strict layer isolation
-- Test-first development with 90% code coverage requirement
-- Mock data approach eliminates external API dependencies
-- Cross-platform consistency between mobile and web implementations
+### Parallel Opportunities
+- Abstract data package (T012-T027) can run in parallel
+- Mobile and web data packages (T041-T058) can run in parallel
+- React Native and React web apps (T059-T088) can run in parallel
+- Testing and validation (T123-T132) can run in parallel with implementation
+
+### SOLID Principles Compliance
+All tasks include SOLID principles validation:
+- **SRP**: Single responsibility per class/component
+- **OCP**: Strategy pattern for extensibility
+- **LSP**: Fully substitutable implementations
+- **ISP**: Focused, cohesive interfaces
+- **DIP**: Depend on abstractions, not concretions

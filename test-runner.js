@@ -27,17 +27,26 @@ function runTests() {
     }
   }
   
+  // Helper function to find heroes data file
+  function findHeroesDataPath() {
+    const paths = [
+      path.join(__dirname, 'packages/data-mobile/data/heroes.json'),
+      path.join(__dirname, 'packages/infra-mobile/src/data/heroes.json'),
+    ];
+    for (const p of paths) {
+      if (fs.existsSync(p)) return p;
+    }
+    throw new Error('Heroes data file not found in any expected location');
+  }
+  
   // Test 1: Heroes data exists and is valid
   test('Heroes data file exists', () => {
-    const heroesPath = path.join(__dirname, 'packages/infra-mobile/src/data/heroes.json');
-    if (!fs.existsSync(heroesPath)) {
-      throw new Error('Heroes data file not found');
-    }
+    findHeroesDataPath(); // Will throw if not found
   });
   
   // Test 2: Heroes data is valid JSON
   test('Heroes data is valid JSON', () => {
-    const heroesPath = path.join(__dirname, 'packages/infra-mobile/src/data/heroes.json');
+    const heroesPath = findHeroesDataPath();
     const heroesData = JSON.parse(fs.readFileSync(heroesPath, 'utf8'));
     if (!Array.isArray(heroesData)) {
       throw new Error('Heroes data is not an array');
@@ -49,7 +58,7 @@ function runTests() {
   
   // Test 3: Hero data structure is correct
   test('Hero data structure is correct', () => {
-    const heroesPath = path.join(__dirname, 'packages/infra-mobile/src/data/heroes.json');
+    const heroesPath = findHeroesDataPath();
     const heroesData = JSON.parse(fs.readFileSync(heroesPath, 'utf8'));
     const firstHero = heroesData[0];
     
@@ -70,7 +79,7 @@ function runTests() {
   
   // Test 4: Search functionality works
   test('Search functionality works', () => {
-    const heroesPath = path.join(__dirname, 'packages/infra-mobile/src/data/heroes.json');
+    const heroesPath = findHeroesDataPath();
     const heroesData = JSON.parse(fs.readFileSync(heroesPath, 'utf8'));
     
     const ironManResults = heroesData.filter(hero => 
@@ -88,7 +97,7 @@ function runTests() {
   
   // Test 5: All heroes have unique IDs
   test('All heroes have unique IDs', () => {
-    const heroesPath = path.join(__dirname, 'packages/infra-mobile/src/data/heroes.json');
+    const heroesPath = findHeroesDataPath();
     const heroesData = JSON.parse(fs.readFileSync(heroesPath, 'utf8'));
     
     const ids = heroesData.map(hero => hero.id);
@@ -101,7 +110,7 @@ function runTests() {
   
   // Test 6: All heroes have valid image URLs
   test('All heroes have valid image URLs', () => {
-    const heroesPath = path.join(__dirname, 'packages/infra-mobile/src/data/heroes.json');
+    const heroesPath = findHeroesDataPath();
     const heroesData = JSON.parse(fs.readFileSync(heroesPath, 'utf8'));
     
     for (const hero of heroesData) {

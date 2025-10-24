@@ -21,33 +21,32 @@
     "baseUrl": ".",
     "paths": {
       "@domain/*": ["packages/domain/src/*"],
-      "@application/*": ["packages/application/src/*"],
-      "@infra-mobile/*": ["packages/infra-mobile/src/*"],
-      "@infra-web/*": ["packages/infra-web/src/*"],
-      "@presentation-mobile/*": ["packages/presentation-mobile/src/*"],
-      "@presentation-web/*": ["packages/presentation-web/src/*"],
-      "@di/*": ["packages/di/src/*"],
-      "@shared/*": ["packages/shared/src/*"]
+      "@abstract_data/*": ["packages/data/abstract_data/src/*"],
+      "@mobile_data/*": ["packages/data/mobile_data/src/*"],
+      "@web_data/*": ["packages/data/web_data/src/*"],
+      "@di/*": ["packages/di/src/*"]
     }
   },
   "include": [
     "packages/*/src/**/*",
-    "packages/*/tests/**/*"
+    "packages/*/tests/**/*",
+    "packages/*/*/src/**/*",
+    "packages/*/*/tests/**/*"
   ],
   "exclude": [
     "node_modules",
     "packages/*/node_modules",
     "packages/*/dist",
-    "packages/*/build"
+    "packages/*/build",
+    "packages/*/*/node_modules",
+    "packages/*/*/dist",
+    "packages/*/*/build"
   ],
   "references": [
     { "path": "./packages/domain" },
-    { "path": "./packages/application" },
-    { "path": "./packages/infra-mobile" },
-    { "path": "./packages/infra-web" },
-    { "path": "./packages/presentation-mobile" },
-    { "path": "./packages/presentation-web" },
-    { "path": "./packages/di" },
-    { "path": "./packages/shared" }
+    { "path": "./packages/data/abstract_data" },
+    { "path": "./packages/data/mobile_data" },
+    { "path": "./packages/data/web_data" },
+    { "path": "./packages/di" }
   ]
 }

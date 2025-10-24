@@ -1,37 +1,29 @@
 {
   "name": "@marvel-heroes/di",
   "version": "1.0.0",
-  "description": "Dependency injection containers and bindings",
+  "description": "Dependency injection containers and bindings for apps",
+  "private": true,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -b",
+    "clean": "rimraf dist",
     "test": "jest",
-    "test:coverage": "jest --coverage",
-    "lint": "eslint src/**/*.ts",
-    "lint:fix": "eslint src/**/*.ts --fix",
-    "clean": "rm -rf dist",
+    "lint": "eslint 'src/**/*.{ts,tsx}'",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@marvel-heroes/application": "file:../application",
-    "@marvel-heroes/domain": "file:../domain",
-    "@marvel-heroes/infra-mobile": "file:../infra-mobile",
-    "@marvel-heroes/infra-web": "file:../infra-web",
-    "@marvel-heroes/shared": "file:../shared",
-    "inversify": "^6.0.2",
-    "reflect-metadata": "^0.2.2"
+    "abstract_data": "file:../data/abstract_data"
   },
   "devDependencies": {
-    "@types/jest": "^29.5.8",
-    "@typescript-eslint/eslint-plugin": "^6.21.0",
-    "@typescript-eslint/parser": "^6.21.0",
-    "eslint": "^8.55.0",
+    "@types/jest": "^29.5.13",
     "jest": "^29.7.0",
     "ts-jest": "^29.1.1",
-    "typescript": "^5.3.0"
-  },
-  "files": [
-    "dist"
-  ]
+    "typescript": "^5.9.3",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "eslint": "^8.55.0"
+  }
 }
+
+

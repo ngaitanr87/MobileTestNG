@@ -1,10 +1,10 @@
 <!--
 Sync Impact Report:
-Version change: 1.1.0 → 1.2.0
-Modified principles: Added federated data layer architecture
-Added sections: Federated Data Layer Architecture, Data Package Structure, Data Layer Import Rules
-Updated sections: Data Layer Requirements, Infrastructure Layer Requirements, Dependency Injection, Testing Strategy
-Removed sections: None (template structure maintained)
+Version change: 1.4.0 → 1.5.0
+Modified principles: Added SOLID Principles Compliance as Core Principle VI
+Added sections: SOLID Principles Architecture, SOLID Principles Implementation, SOLID Principles Validation
+Updated sections: Domain Layer Requirements, Data Layer Requirements, App Layer Requirements, Integration Testing
+Removed sections: None
 Templates requiring updates: ✅ plan-template.md, ✅ spec-template.md, ✅ tasks-template.md
 Follow-up TODOs: None
 -->
@@ -15,154 +15,158 @@ Follow-up TODOs: None
 ## Core Principles
 
 ### I. Strict Layer Isolation (NON-NEGOTIABLE)
-Domain → Application → (Infrastructure|Presentation); NO reverse dependencies allowed. Each layer MUST be an independent module/package that can live in separate repositories. Domain and Application layers MUST be platform-agnostic and consumable by both React Native AND React Web. Violations MUST be caught by lint rules and CI speccheck validation.
+Domain → Data → App; NO reverse dependencies allowed. Each layer MUST be an independent module/package that can live in separate repositories. Domain layer MUST be platform-agnostic and consumable by both React Native AND React Web. Data layer MUST provide platform-specific implementations. App layer MUST contain platform-specific UI and business logic. Violations MUST be caught by lint rules and CI speccheck validation.
 
 ### II. Clean Architecture Boundaries (NON-NEGOTIABLE)
-Domain layer MUST contain only pure TypeScript: Entities, Value Objects, Use Cases, and Interfaces with ZERO framework dependencies (no React/RN/Redux/HTTP imports). Application layer MUST orchestrate use cases via Redux Toolkit slices and thunks/sagas without direct infrastructure calls. Infrastructure layer MUST implement interfaces using platform APIs and be swappable between mobile and web variants. Presentation layer MUST contain only React/RN UI components that dispatch actions and read selectors.
+Domain layer MUST contain pure TypeScript: Entities, Value Objects, Use Cases, and Interfaces with minimal framework dependencies (only device service wrappers like reactjs-localstorage). Data layer MUST implement domain interfaces using platform-specific storage and HTTP clients. App layer MUST contain React/RN UI components and platform-specific business logic orchestration. NO direct cross-platform dependencies between mobile and web apps.
 
 ### III. Dependency Injection at Composition Roots
-UI components MUST NEVER instantiate infrastructure directly. All dependencies MUST be injected at application bootstrap using containers (recommended: InversifyJS). Domain interfaces MUST be bound to Infrastructure implementations at startup. Feature sub-containers MUST be used for complex feature boundaries. Service locator pattern is acceptable alternative to DI containers.
+UI components MUST NEVER instantiate data layer directly. All dependencies MUST be injected at application bootstrap using containers (recommended: InversifyJS). Domain interfaces MUST be bound to Data layer implementations at startup. Feature sub-containers MUST be used for complex feature boundaries. Service locator pattern is acceptable alternative to DI containers.
 
 ### IV. Test-First Development (NON-NEGOTIABLE)
-Domain and Application layers MUST have comprehensive Jest unit tests with NO React Native dependencies. Infrastructure layers MUST have contract tests mocking network/storage. Presentation layers MUST use React Testing Library for both RN and Web. Tests MUST be written before implementation following Red-Green-Refactor cycle. Integration tests MUST cover new library contracts, contract changes, and inter-service communication.
+Domain layer MUST have comprehensive Jest unit tests with minimal framework dependencies. Data layers MUST have contract tests mocking network/storage. App layers MUST use React Testing Library for both RN and Web. Tests MUST be written before implementation following Red-Green-Refactor cycle. Integration tests MUST cover new library contracts, contract changes, and inter-service communication.
 
 ### V. State Management Discipline (NON-NEGOTIABLE)
-Redux Toolkit MUST be used for store and slice management. Thunks/Sagas MUST call Use Cases, never APIs directly. Selectors MUST be defined in Application layer; Presentation consumes selectors only. Reducers MUST remain pure functions. State orchestration MUST happen in Application layer, never in Presentation or Domain.
+Redux Toolkit MUST be used for store and slice management in app layers. Thunks/Sagas MUST call Domain Use Cases, never APIs directly. Selectors MUST be defined in app layer; UI components consume selectors only. Reducers MUST remain pure functions. State orchestration MUST happen in app layer, never in Domain or Data layers.
+
+### VI. SOLID Principles Compliance (NON-NEGOTIABLE)
+All code MUST adhere to SOLID principles. Single Responsibility: Each class/function has one reason to change. Open/Closed: Use Strategy pattern for extensibility without modification. Liskov Substitution: Interface implementations MUST be fully substitutable. Interface Segregation: Interfaces MUST be focused and cohesive. Dependency Inversion: Depend on abstractions, not concretions. Violations MUST be caught by lint rules and code reviews.
 
 ## Clean Architecture Layers
 
 ### Domain Layer Requirements
-- Pure TypeScript with zero framework dependencies
-- Entities, Value Objects, Domain Errors, Use Cases, Repository Interfaces
-- MUST NOT import React, React Native, Redux, Axios, or any infrastructure packages
+- Pure TypeScript with minimal framework dependencies
+- Entities, Value Objects, Domain Errors, Use Cases
+- CAN import interfaces from abstract_data package (Dependency Inversion Principle)
+- MUST NOT import React, React Native, Redux, Axios, or platform-specific packages
 - Business rules and domain logic only
 - Platform-agnostic and testable in isolation
+- Use Cases depend on abstract_data interfaces, not implementations
+- MUST follow Single Responsibility Principle (one reason to change per class)
+- MUST use Strategy pattern for extensibility (Open/Closed Principle)
 
-### Application Layer Requirements
-- Orchestrates use cases via thunks/sagas
-- Owns Redux slices and selectors
-- NO platform APIs or direct infrastructure calls
-- Can import from Domain and Shared layers only
-- State management and use case coordination
-
-### Data Layer Requirements (FEDERATED ARCHITECTURE)
-- **data-shared package**: Contains shared contracts, HTTP client, mappers, and DTOs
-- **data-mobile package**: Mobile-specific storage implementations and adapters
-- **data-web package**: Web-specific storage implementations and adapters
-- Platform-agnostic data contracts and interfaces in shared package
-- Federated data source architecture (Flutter-style)
-- Shared axios HTTP client implementation (no duplication)
-- Platform-specific storage implementations (AsyncStorage vs localStorage)
+### Data Layer Requirements (DEPENDENCY INVERSION ARCHITECTURE)
+- **abstract_data package**: Contains interfaces, contracts, HTTP client, mappers, and DTOs
+- **mobile_data package**: Implements abstract_data interfaces using @react-native-async-storage/async-storage
+- **web_data package**: Implements abstract_data interfaces using localStorage
+- Platform-agnostic interfaces defined in abstract_data package
+- Domain layer depends on abstract_data interfaces (Dependency Inversion Principle)
+- Platform-specific implementations in mobile_data and web_data packages
 - Contract testing for all data interfaces
-- NO direct platform dependencies in shared data layer
+- NO direct platform dependencies in abstract_data package
 - Must support caching and error handling strategies
+- MUST follow Interface Segregation Principle (focused, cohesive interfaces)
+- MUST ensure Liskov Substitution Principle (fully substitutable implementations)
+- MUST use Strategy pattern for different storage implementations (Open/Closed Principle)
 
-### Infrastructure Layer Requirements
-- Implements Domain interfaces using platform APIs
-- Separate packages: infra-mobile and infra-web
-- Storage adapters, native module bridges
-- Swappable implementations per platform
-- NO Presentation layer imports allowed
-- **UPDATED**: HTTP clients moved to data-shared package
-- **UPDATED**: Storage implementations moved to data-mobile/data-web packages
-- **UPDATED**: Must import and use shared data layer contracts
-
-### Presentation Layer Requirements
-- React/React Native UI components only
-- Dispatches actions, reads selectors
-- NO business rules or direct infrastructure access
-- Separate packages: presentation-mobile and presentation-web
-- Platform-specific UI implementations
+### App Layer Requirements
+- **rnApp package**: React Native app for Android and iOS
+- **react-app package**: React web application
+- Contains React/RN UI components and platform-specific business logic
+- Imports domain and platform-specific data packages
+- Owns Redux slices, selectors, and state management
+- Platform-specific UI implementations and user interactions
+- MUST follow Single Responsibility Principle (one responsibility per component)
+- MUST use Strategy pattern for different UI behaviors (Open/Closed Principle)
+- MUST ensure components are fully substitutable (Liskov Substitution Principle)
 
 ## Dependency Injection
 
 ### Container Configuration
-- Main app container per platform (mobile/web)
+- Main app container per platform (rnApp/react-app)
 - Feature sub-containers for complex boundaries
 - Recommended: InversifyJS with TypeScript decorators
 - Alternative: React Context with service locator pattern
 - All bindings MUST be defined at bootstrap time
-- **NEW**: Data layer bindings for shared contracts and platform-specific implementations
+- Data layer bindings for abstract_data contracts and platform-specific implementations
 
 ### Binding Rules
-- Domain interfaces MUST be bound to Infrastructure implementations
-- Use Cases MUST be bound to Application layer
+- Domain interfaces MUST be bound to Data layer implementations
+- Use Cases MUST be bound to Domain layer
 - UI components MUST receive dependencies via props or hooks
-- NO direct instantiation of infrastructure in UI components
-- **NEW**: Data layer contracts MUST be bound to platform-specific implementations
-- **NEW**: HTTP client MUST be bound to shared axios implementation
-- **NEW**: Storage repositories MUST be bound to platform-specific implementations (AsyncStorage vs localStorage)
+- NO direct instantiation of data layer in UI components
+- Data layer contracts MUST be bound to platform-specific implementations
+- HTTP client MUST be bound to abstract_data implementation
+- Storage repositories MUST be bound to platform-specific implementations (AsyncStorage vs localStorage)
 
 ## State Management
 
 ### Redux Toolkit Requirements
-- Store configuration in Application layer
+- Store configuration in App layer (rnApp/react-app)
 - Slices for feature state management
-- Thunks for async operations calling Use Cases
+- Thunks for async operations calling Domain Use Cases
 - Selectors for computed state access
 - Middleware for logging, persistence, and side effects
 
 ### State Flow Rules
-- UI dispatches actions to Application layer
-- Application layer calls Domain Use Cases
-- Use Cases interact with Infrastructure via interfaces
+- UI dispatches actions to App layer
+- App layer calls Domain Use Cases
+- Use Cases interact with Data layer via interfaces
 - State updates flow back through selectors to UI
 - NO direct API calls from UI components
 
 ## Testing Strategy
 
 ### Unit Testing
-- Domain/Application: Jest with no RN dependencies
+- Domain: Jest with minimal framework dependencies
 - Pure business logic testing
 - Mock all external dependencies
 - Test Use Cases in isolation
 - Verify business rules and edge cases
 
 ### Integration Testing
-- Infrastructure: Contract tests with mocked network/storage
+- Data layer: Contract tests with mocked network/storage
 - Test interface implementations against Domain contracts
 - Verify platform-specific adapters work correctly
 - Test data flow between layers
-- **NEW**: Data layer contract tests for shared interfaces
-- **NEW**: Platform-specific storage implementation tests
-- **NEW**: Shared HTTP client integration tests
-- **NEW**: Data mapper tests for DTO to domain conversion
+- Data layer contract tests for abstract_data interfaces
+- Platform-specific storage implementation tests
+- HTTP client integration tests
+- Data mapper tests for DTO to domain conversion
+- Liskov Substitution Principle validation tests
+- Interface compliance testing for all implementations
+- Behavioral testing to ensure substitutability
 
 ### UI Testing
-- Presentation: React Testing Library for RN and Web
+- App layer: React Testing Library for RN and Web
 - Test user interactions and state updates
-- Mock Application layer dependencies
+- Mock Domain and Data layer dependencies
 - Verify UI behavior without business logic
 
-## Federated Data Layer Architecture
+## SOLID Principles Architecture
 
-### Data Package Structure
-- **data-shared**: Shared contracts, HTTP client, mappers, DTOs
-- **data-mobile**: Mobile-specific storage implementations and adapters
-- **data-web**: Web-specific storage implementations and adapters
-- **Import Pattern**: Mobile imports data-shared + data-mobile, Web imports data-shared + data-web
+### SOLID Principles Implementation
+- **Single Responsibility Principle (SRP)**: Each class/function has one reason to change
+- **Open/Closed Principle (OCP)**: Use Strategy pattern for extensibility without modification
+- **Liskov Substitution Principle (LSP)**: Interface implementations are fully substitutable
+- **Interface Segregation Principle (ISP)**: Interfaces are focused and cohesive
+- **Dependency Inversion Principle (DIP)**: Depend on abstractions, not concretions
 
-### Shared Data Package (data-shared)
-- Contains all data contracts and interfaces
-- Shared axios HTTP client implementation
-- Shared data mappers (Hero, Comic, Movie)
-- Shared DTOs and common types
-- NO platform-specific dependencies
-- Must be importable by both mobile and web packages
-
-### Platform-Specific Data Packages
-- **data-mobile**: AsyncStorage implementations, mobile-specific adapters
-- **data-web**: localStorage implementations, web-specific adapters
-- Each package imports shared contracts from data-shared
-- Platform-specific storage and caching strategies
-- NO duplication of shared functionality
+### Package Dependencies
+- **abstract_data**: Contains interfaces, contracts, HTTP client, mappers, DTOs
+- **domain**: Depends on abstract_data interfaces, contains business logic and use cases
+- **mobile_data**: Depends on abstract_data, implements interfaces for mobile storage
+- **web_data**: Depends on abstract_data, implements interfaces for web storage
+- **rnApp**: Depends on domain + mobile_data, React Native app
+- **react-app**: Depends on domain + web_data, React web app
 
 ### Data Layer Import Rules
-- Mobile solution: Import from @data-shared + @data-mobile
-- Web solution: Import from @data-shared + @data-web
-- NO direct imports between data-mobile and data-web
-- All shared functionality MUST come from data-shared
-- Platform-specific functionality MUST come from respective data package
+- rnApp: Import from domain + mobile_data
+- react-app: Import from domain + web_data
+- domain: Import interfaces from abstract_data
+- mobile_data: Import interfaces from abstract_data, implement them
+- web_data: Import interfaces from abstract_data, implement them
+- NO direct imports between mobile_data and web_data
+- NO direct imports between rnApp and react-app
+- All interfaces and contracts MUST come from abstract_data
+- Platform-specific implementations MUST come from respective data package
+
+### SOLID Principles Validation
+- **SRP Validation**: Code review checks for single responsibility per class
+- **OCP Validation**: Strategy pattern usage for extensibility
+- **LSP Validation**: Contract testing and behavioral testing for substitutability
+- **ISP Validation**: Interface focus and cohesion checks
+- **DIP Validation**: Dependency direction and abstraction usage checks
 
 ## Platform Targets
 
@@ -185,4 +189,4 @@ Redux Toolkit MUST be used for store and slice management. Thunks/Sagas MUST cal
 
 All development MUST comply with this constitution. Amendments require documentation, team approval, and migration plan. All PRs MUST verify layer isolation compliance using speccheck YAML validation. Complexity beyond these principles MUST be justified with architectural decision records. Use `.specify/templates/` for runtime development guidance.
 
-**Version**: 1.2.0 | **Ratified**: 2025-01-27 | **Last Amended**: 2025-01-27
+**Version**: 1.5.0 | **Ratified**: 2025-01-27 | **Last Amended**: 2025-01-27

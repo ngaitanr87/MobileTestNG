@@ -25,4 +25,8 @@
   "files": [
     "dist"
   ]
+  ,
+  "dependencies": {
+    "abstract_data": "file:../data/abstract_data"
+  }
 }

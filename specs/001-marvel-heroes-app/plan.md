@@ -9,7 +9,7 @@
 
 A master-detail mobile app for learning about Marvel heroes with search functionality, detailed character information including comics and movies, and favorites management. The app uses mock data (30 heroes) with Clean Architecture principles for React Native and React Web platforms.
 
-**ARCHITECTURE CLEANUP**: Refactor the current architecture to implement proper Clean Architecture principles with a federated data layer approach. This includes creating shared data packages that isolate data source interfaces from platform-specific implementations, similar to Flutter's federated plugin architecture.
+**ARCHITECTURE CLEANUP**: Refactor the current architecture to implement proper Clean Architecture principles with Dependency Inversion Principle and SOLID principles compliance. This includes creating abstract_data package with interfaces that domain depends on, platform-specific implementations in mobile_data and web_data packages, and ensuring all code adheres to SOLID principles.
 
 ## Technical Context
 
@@ -77,115 +77,125 @@ specs/[###-feature]/
 ```
 packages/
 ├── domain/                    # ✅ Good: Pure business logic
-├── application/               # ✅ Good: Redux state management
-├── infra-mobile/             # ❌ Issue: Platform-specific data layer
-│   └── src/
-│       └── data/             # Duplicated data logic
-├── infra-web/                # ❌ Issue: Platform-specific data layer
-│   └── src/
-│       └── data/           # Duplicated data logic
-├── presentation-mobile/       # ✅ Good: UI components
-├── presentation-web/         # ✅ Good: UI components
-├── di/                       # ✅ Good: Dependency injection
-└── shared/                   # ✅ Good: Cross-cutting concerns
+├── application/               # ❌ REMOVED: Redundant layer
+├── infra-mobile/             # ❌ REMOVED: Not needed
+├── infra-web/                # ❌ REMOVED: Not needed
+├── presentation-mobile/       # ❌ REMOVED: Merged into apps
+├── presentation-web/         # ❌ REMOVED: Merged into apps
+├── di/                       # ❌ REMOVED: Not needed
+└── shared/                   # ❌ REMOVED: Not needed
 ```
 
-#### Target Structure (After Cleanup)
+#### Target Structure (Simplified Architecture)
 ```
 packages/
-├── domain/                    # Pure business logic (unchanged)
-├── application/               # Redux state management (unchanged)
-├── data-mobile/              # 🆕 NEW: Mobile data layer with implementations
+├── domain/                    # Pure business logic depending on abstract_data interfaces
 │   ├── src/
-│   │   ├── contracts/        # Data source interfaces
-│   │   ├── adapters/         # Platform-agnostic adapters
-│   │   ├── implementations/  # Mobile-specific implementations (storage only)
-│   │   ├── sources/          # Data source implementations
-│   │   └── types/            # Data transfer objects
+│   │   ├── entities/
+│   │   ├── value-objects/
+│   │   ├── use-cases/
+│   │   └── interfaces/
 │   └── tests/
-├── data-web/                 # 🆕 NEW: Web data layer with implementations
+├── data/
+│   ├── abstract_data/        # 🆕 NEW: Interfaces, contracts, and shared implementations
+│   │   ├── src/
+│   │   │   ├── contracts/    # Data source interfaces (ILocalStorageDataSource, etc.)
+│   │   │   ├── http/         # Shared axios HTTP client
+│   │   │   ├── mappers/      # Shared data mappers
+│   │   │   └── types/        # Shared DTOs and interfaces
+│   │   └── tests/
+│   ├── mobile_data/          # 🆕 NEW: Mobile implementations of abstract_data interfaces
+│   │   ├── src/
+│   │   │   ├── implementations/  # Mobile storage implementations (AsyncStorage)
+│   │   │   └── sources/          # Data source implementations
+│   │   └── tests/
+│   └── web_data/             # 🆕 NEW: Web implementations of abstract_data interfaces
+│       ├── src/
+│       │   ├── implementations/  # Web storage implementations (localStorage)
+│       │   └── sources/          # Data source implementations
+│       └── tests/
+├── rnApp/                    # 🆕 NEW: React Native app (Android + iOS)
 │   ├── src/
-│   │   ├── contracts/        # Data source interfaces
-│   │   ├── adapters/         # Platform-agnostic adapters
-│   │   ├── implementations/  # Web-specific implementations (storage only)
-│   │   ├── sources/          # Data source implementations
-│   │   └── types/            # Data transfer objects
+│   │   ├── components/
+│   │   ├── screens/
+│   │   ├── store/
+│   │   └── hooks/
 │   └── tests/
-├── data-shared/              # 🆕 NEW: Shared data implementations
-│   ├── src/
-│   │   ├── contracts/        # Shared data contracts
-│   │   ├── http/             # Shared axios HTTP client
-│   │   ├── mappers/          # Shared data mappers
-│   │   └── types/            # Shared DTOs and interfaces
-│   └── tests/
-├── infra-mobile/             # Mobile-specific implementations
-│   ├── src/
-│   │   ├── storage/          # AsyncStorage adapter
-│   │   └── native/           # Native module bridges
-│   └── tests/
-├── infra-web/                # Web-specific implementations
-│   ├── src/
-│   │   ├── storage/          # localStorage adapter
-│   │   └── sw/               # Service Worker
-│   └── tests/
-├── presentation-mobile/      # UI components (unchanged)
-├── presentation-web/         # UI components (unchanged)
-├── di/                       # Updated DI configuration
-└── shared/                   # Cross-cutting concerns (unchanged)
+└── react-app/                # 🆕 NEW: React web application
+    ├── src/
+    │   ├── components/
+    │   ├── pages/
+    │   ├── store/
+    │   └── hooks/
+    └── tests/
 ```
 
-**Structure Decision**: Clean Architecture with federated data layer approach. Domain layer contains pure business logic. Application layer manages Redux state and orchestrates use cases. **NEW**: Separate data packages for mobile and web with platform-specific implementations. Infrastructure layers provide platform-specific adapters. Presentation layers contain only UI components. Dependency injection ensures loose coupling between layers.
+**Structure Decision**: Dependency Inversion Principle architecture with SOLID principles compliance and direct app packages. Domain layer contains pure business logic and depends on abstract_data interfaces. Abstract_data defines interfaces and contracts. Mobile_data and web_data implement these interfaces with platform-specific storage using Strategy pattern. App layer contains platform-specific UI and business logic orchestration. All code MUST adhere to SOLID principles. NO intermediate application or infrastructure layers.
 
 ## Phase 2: Implementation Tasks
 
-### Task 1: Create Shared Data Package
-- [ ] Create `packages/data-shared` package structure
-- [ ] Define shared data contracts (HTTP, Storage, Repository interfaces)
-- [ ] Implement shared axios HTTP client
-- [ ] Create shared data mappers
-- [ ] Define shared DTOs and interfaces
-- [ ] Add comprehensive tests for shared data layer
+### Task 1: Create Abstract Data Package
+- [ ] Create `packages/data/abstract_data` package structure
+- [ ] Define data source interfaces (ILocalStorageDataSource, IHttpClient, etc.) following ISP
+- [ ] Implement shared axios HTTP client following SRP
+- [ ] Create shared data mappers following SRP
+- [ ] Define shared DTOs and interfaces following ISP
+- [ ] Add comprehensive tests for abstract data layer
+- [ ] Ensure all interfaces follow Interface Segregation Principle
 
 ### Task 2: Create Mobile Data Package
-- [ ] Create `packages/data-mobile` package structure
-- [ ] Import shared contracts from data-shared
-- [ ] Implement mobile-specific storage adapters
-- [ ] Import shared HTTP client and mappers from data-shared
-- [ ] Add comprehensive tests for mobile data layer
+- [ ] Create `packages/data/mobile_data` package structure
+- [ ] Import interfaces from abstract_data
+- [ ] Implement ILocalStorageDataSource using @react-native-async-storage/async-storage following LSP
+- [ ] Implement other abstract_data interfaces for mobile platform following LSP
+- [ ] Use Strategy pattern for different storage implementations (OCP)
+- [ ] Add comprehensive tests for mobile data layer including LSP validation
 
 ### Task 3: Create Web Data Package
-- [ ] Create `packages/data-web` package structure
-- [ ] Import shared contracts from data-shared
-- [ ] Implement web-specific storage adapters
-- [ ] Import shared HTTP client and mappers from data-shared
-- [ ] Add comprehensive tests for web data layer
+- [ ] Create `packages/data/web_data` package structure
+- [ ] Import interfaces from abstract_data
+- [ ] Implement ILocalStorageDataSource using localStorage following LSP
+- [ ] Implement other abstract_data interfaces for web platform following LSP
+- [ ] Use Strategy pattern for different storage implementations (OCP)
+- [ ] Add comprehensive tests for web data layer including LSP validation
 
-### Task 4: Refactor Infrastructure Layers
-- [ ] Remove duplicated data logic from `infra-mobile` and `infra-web`
-- [ ] Keep only storage adapters in infrastructure layers
-- [ ] Update dependency injection configuration
-- [ ] Add contract tests for platform implementations
+### Task 4: Update Domain Layer
+- [ ] Update domain package.json to depend on abstract_data
+- [ ] Update use cases to import and use abstract_data interfaces following DIP
+- [ ] Ensure domain depends on interfaces, not implementations (DIP)
+- [ ] Apply Single Responsibility Principle to all use cases (SRP)
+- [ ] Use Strategy pattern for extensible use case behaviors (OCP)
+- [ ] Add integration tests for domain layer including SOLID validation
 
-### Task 5: Update Application Layer
-- [ ] Update use cases to use new data layer interfaces
-- [ ] Refactor Redux thunks to use new data contracts
-- [ ] Update selectors if needed
-- [ ] Ensure no direct infrastructure dependencies
-- [ ] Add integration tests
+### Task 5: Create React Native App
+- [ ] Create `packages/rnApp` package structure
+- [ ] Set up React Native project with proper dependencies
+- [ ] Import domain and mobile_data packages
+- [ ] Implement Redux store and state management following SRP
+- [ ] Create UI components and screens following SRP and LSP
+- [ ] Use Strategy pattern for different UI behaviors (OCP)
+- [ ] Add comprehensive tests for React Native app including SOLID validation
 
-### Task 6: Update Dependency Injection
-- [ ] Create new DI bindings for data layers
-- [ ] Update platform-specific containers
-- [ ] Add feature-specific sub-containers if needed
-- [ ] Update bootstrap configuration
-- [ ] Add DI tests
+### Task 6: Create React Web App
+- [ ] Create `packages/react-app` package structure
+- [ ] Set up React project with proper dependencies
+- [ ] Import domain and web_data packages
+- [ ] Implement Redux store and state management following SRP
+- [ ] Create UI components and pages following SRP and LSP
+- [ ] Use Strategy pattern for different UI behaviors (OCP)
+- [ ] Add comprehensive tests for React web app including SOLID validation
 
 ### Task 7: Testing & Validation
 - [ ] Add contract tests for data layer interfaces
 - [ ] Create mock implementations for testing
 - [ ] Update existing tests to use new structure
-- [ ] Add integration tests for federated data sources
+- [ ] Add integration tests for data sources
 - [ ] Validate Clean Architecture compliance
+- [ ] Add SOLID principles validation tests
+- [ ] Implement Liskov Substitution Principle testing
+- [ ] Add Interface Segregation Principle validation
+- [ ] Create behavioral testing for substitutability
+- [ ] Add code review checklists for SOLID compliance
 
 ## Complexity Tracking
 
@@ -193,7 +203,10 @@ packages/
 
 | Violation | Why Needed | Simpler Alternative Rejected Because |
 |-----------|------------|-------------------------------------|
-| Separate Data Packages | Platform-specific optimizations and implementations | Single data package would require complex platform detection |
-| Federated Data Layer | Platform-agnostic data contracts | Direct platform dependencies create tight coupling |
-| Contract Testing | Ensure data layer reliability | Unit tests alone don't catch integration issues |
+| Abstract Data Package | Defines interfaces and contracts for Dependency Inversion | Direct duplication would violate DRY principle |
+| Domain Depends on Abstract Data | Dependency Inversion Principle - domain depends on abstractions | Traditional Clean Architecture would require domain to define all interfaces |
+| Platform-Specific Data Packages | Platform-specific storage implementations | Single package would require complex platform detection |
+| Direct App Packages | Simplified architecture without intermediate layers | Application layer was redundant and added complexity |
+| SOLID Principles Compliance | Ensures maintainable, extensible, and testable code | Without SOLID principles, code becomes tightly coupled and hard to maintain |
+| Strategy Pattern for Extensibility | Open/Closed Principle - open for extension, closed for modification | Direct implementation changes would violate OCP and create maintenance issues |
 

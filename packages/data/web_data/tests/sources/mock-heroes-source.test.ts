@@ -1,0 +1,18 @@
+import { WebHeroDataSource } from '../../../src/sources/MockHeroesSource';
+
+describe('WebHeroDataSource', () => {
+  it('returns heroes list', async () => {
+    const ds = new WebHeroDataSource();
+    const list = await ds.getHeroes();
+    expect(Array.isArray(list)).toBe(true);
+    expect(list.length).toBeGreaterThan(0);
+  });
+
+  it('searches by prefix name or description', async () => {
+    const ds = new WebHeroDataSource();
+    const res = await ds.searchHeroes('sp');
+    expect(res.every(h => typeof h.name === 'string')).toBe(true);
+  });
+});
+
+

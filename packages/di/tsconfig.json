@@ -1,37 +1,14 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": "./src",
+    "composite": true,
+    "outDir": "dist",
+    "rootDir": "src",
     "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "noEmit": false,
-    "composite": true
+    "declarationMap": true
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "tests"
-  ],
-  "references": [
-    {
-      "path": "../domain"
-    },
-    {
-      "path": "../application"
-    },
-    {
-      "path": "../infra-mobile"
-    },
-    {
-      "path": "../infra-web"
-    },
-    {
-      "path": "../shared"
-    }
-  ]
+  "include": ["src/**/*", "tests/**/*"],
+  "exclude": ["dist", "node_modules"]
 }
+
+

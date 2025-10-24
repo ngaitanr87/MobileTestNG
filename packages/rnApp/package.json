@@ -1,0 +1,36 @@
+{
+  "name": "rnApp",
+  "version": "0.0.1",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "start": "react-native start --port 8081",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "build": "tsc -b",
+    "clean": "rimraf dist",
+    "test": "jest",
+    "lint": "eslint 'src/**/*.{ts,tsx}'",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@marvel-heroes/domain": "*",
+    "mobile_data": "file:../data/mobile_data",
+    "react-native": "0.82.1",
+    "react": "19.1.1",
+    "@reduxjs/toolkit": "^2.2.0",
+    "react-redux": "^9.1.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.13",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.9.3",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "eslint": "^8.55.0"
+  }
+}
+
+

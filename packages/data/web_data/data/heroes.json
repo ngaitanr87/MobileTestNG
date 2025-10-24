@@ -1,0 +1,14 @@
+[
+  {
+    "id": "1",
+    "name": "Iron Man",
+    "description": "Genius billionaire inventor",
+    "imageUrl": "https://example.com/ironman.jpg",
+    "thumbnailUrl": "https://example.com/ironman-thumb.jpg",
+    "comics": [],
+    "movies": [],
+    "characteristics": { "powers": ["Armor"], "weaknesses": [], "affiliations": ["Avengers"] },
+    "createdAt": "2025-01-01T00:00:00.000Z",
+    "updatedAt": "2025-01-01T00:00:00.000Z"
+  }
+]
