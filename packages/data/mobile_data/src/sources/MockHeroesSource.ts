@@ -20,5 +20,3 @@ export class MobileHeroDataSource implements IHeroDataSource {
     ) as any;
   }
 }
-
-

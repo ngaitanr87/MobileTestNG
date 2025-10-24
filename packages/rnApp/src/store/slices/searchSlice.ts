@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Tokens } from '@di';
+import { Tokens } from '@marvel-heroes/di';
 
 export interface SearchState {
   searchTerm: string;

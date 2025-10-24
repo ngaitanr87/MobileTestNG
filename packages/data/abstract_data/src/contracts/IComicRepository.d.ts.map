@@ -1,0 +1,1 @@
+{"version":3,"file":"IComicRepository.d.ts","sourceRoot":"","sources":["IComicRepository.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,QAAQ,EAAE,MAAM,mBAAmB,CAAC;AAE7C,MAAM,WAAW,gBAAgB;IAC/B,eAAe,CAAC,MAAM,EAAE,MAAM,EAAE,KAAK,CAAC,EAAE,MAAM,GAAG,OAAO,CAAC,QAAQ,EAAE,CAAC,CAAC;CACtE"}

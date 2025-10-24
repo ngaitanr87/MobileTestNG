@@ -11,6 +11,13 @@
     "start": "npm-run-all -p start:web start:mobile",
     "start:web": "cd packages/react-app && npm run dev -- --host",
     "start:mobile": "cd packages/rnApp && npm run start",
+    "android": "cd packages/rnApp && npm run android",
+    "ios": "cd packages/rnApp && npm run ios",
+    "android:release": "cd packages/rnApp && npm run android:release",
+    "ios:release": "cd packages/rnApp && npm run ios:release",
+    "mobile:init": "cd packages/rnApp && npm run init",
+    "mobile:init:ios": "cd packages/rnApp && npm run init:ios",
+    "mobile:init:android": "cd packages/rnApp && npm run init:android",
     "test:demo": "node simple-demo.js",
     "test:validation": "node test-runner.js",
     "validate": "./scripts/validate-layer-isolation.sh"

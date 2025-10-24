@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@marvel-heroes/domain": "*",
+    "@marvel-heroes/di": "*",
     "web_data": "file:../data/web_data",
     "@reduxjs/toolkit": "^2.2.0",
     "react-redux": "^9.1.2"

@@ -2,7 +2,6 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "./src",
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
@@ -18,8 +17,6 @@
     "tests"
   ],
   "references": [
-    {
-      "path": "../shared"
-    }
+    { "path": "../data/abstract_data" }
   ]
 }

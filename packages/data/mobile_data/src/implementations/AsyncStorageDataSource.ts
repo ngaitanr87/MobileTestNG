@@ -19,5 +19,3 @@ export class AsyncStorageDataSource implements ILocalStorageDataSource {
     await AsyncStorage.clear();
   }
 }
-
-

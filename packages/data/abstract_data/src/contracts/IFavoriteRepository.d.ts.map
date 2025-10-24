@@ -1,0 +1,1 @@
+{"version":3,"file":"IFavoriteRepository.d.ts","sourceRoot":"","sources":["IFavoriteRepository.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,mBAAmB;IAClC,cAAc,CAAC,MAAM,EAAE,MAAM,GAAG,OAAO,CAAC,IAAI,CAAC,CAAC;IAC9C,UAAU,CAAC,MAAM,EAAE,MAAM,GAAG,OAAO,CAAC,OAAO,CAAC,CAAC;IAC7C,YAAY,IAAI,OAAO,CAAC,MAAM,EAAE,CAAC,CAAC;CACnC"}
