@@ -13,7 +13,14 @@ export const store = configureStore({
     favorites: favoritesReducer
   },
   middleware: (getDefault) =>
-    getDefault({ thunk: { extraArgument: { container } } })
+    getDefault({
+      thunk: { extraArgument: { container } },
+      serializableCheck: {
+        // Ignore these paths in the state for serializability checks
+        ignoredActions: ['heroes/fetchAll/fulfilled', 'search/query/fulfilled'],
+        ignoredPaths: ['heroes.items', 'search.filteredHeroes'],
+      },
+    })
 });
 
 export type RootState = ReturnType<typeof store.getState>;

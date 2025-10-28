@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { TextInput } from 'react-native';
+import { TextInput, StyleSheet } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../store/store';
 import { searchHeroes } from '../store/slices/searchSlice';
@@ -20,7 +20,26 @@ export function SearchBar() {
     debounced(text);
   }, [text, debounced]);
 
-  return <TextInput placeholder="Search heroes" value={text} onChangeText={setText} />;
+  return (
+    <TextInput
+      style={styles.input}
+      placeholder="Search heroes..."
+      value={text}
+      onChangeText={setText}
+      placeholderTextColor="#999"
+    />
+  );
 }
 
-
+const styles = StyleSheet.create({
+  input: {
+    height: 50,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    marginBottom: 16,
+    fontSize: 16,
+    backgroundColor: '#fff',
+  },
+});
